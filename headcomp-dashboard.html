@@ -1,216 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-
-  <title>Environmental Impact Dashboard for Critical Infrastructure</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
-
-  <!-- Favicons -->
-  <link href="assets/img/letter-e.ico" rel="icon" sizes="32x32">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180">
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Raleway:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-  <!-- Vendor CSS Files -->
-  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-
-  <!-- Template Main CSS File -->
-  <link href="assets/css/style.css" rel="stylesheet">
-
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=GTM-WNNZ7263"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'GTM-WNNZ7263');
-  </script>
-
-  <!-- =======================================================
-  * Template Name: iPortfolio
-  * Updated: May 30 2023 with Bootstrap v5.3.0
-  * Template URL: https://bootstrapmade.com/iportfolio-bootstrap-portfolio-websites-template/
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Environmental Impact Dashboard for Critical Infrastructure — Looker Studio" />
+  <title>Environmental Impact Dashboard · Edwin Santos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="project-dark.css" />
 </head>
-
 <body>
 
-  <!-- ======= Mobile nav toggle button ======= -->
-  <i class="bi bi-list mobile-nav-toggle d-xl-none"></i>
+  <div class="bg-mesh" aria-hidden="true">
+    <div class="mesh mesh-1"></div><div class="mesh mesh-2"></div><div class="mesh mesh-3"></div>
+  </div>
 
-  <!-- ======= Header ======= -->
-   <header id="header">
-    <div class="d-flex flex-column">
+  <header class="nav-wrapper">
+    <nav class="nav">
+      <a href="index.html" class="logo">
+        <span class="logo-mark">ES</span>
+        <span class="logo-dot"></span>
+      </a>
+      <a href="index.html#projects" class="back-link">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        <span>Back to portfolio</span>
+      </a>
+    </nav>
+  </header>
 
-      <div class="profile">
-        <img src="assets/img/profile.png" alt="" class="img-fluid rounded-circle">
-        <h1 class="text-light" style="text-align: center"><a href="index.html">Edwin Santos Vidal</a></h1>
-        <div class="social-links mt-3 text-center">
-          <a href="mailto:edwin.santos@pucp.pe" class="mail" target="_blank"><i class="bx bx-envelope"></i></a>
-          <a href="https://github.com/edwinsantosv" class="github" target="_blank"><i class="bx bxl-github"></i></a> 
-          <a href="https://www.linkedin.com/in/edwinsantosvidal/" class="linkedin" target="_blank"><i class="bx bxl-linkedin"></i></a>
-          <a href="https://wa.me/51915077667?text=Hi%20Edwin,%20I%20hope%20this%20message%20finds%20you%20well.%20I%27m%20reaching%20out%20because%20I%20found%20your%20profile%20very%20interesting%20and%20would%20love%20to%20connect.%20Please%20save%20my%20number!" class="linkedin" target="_blank"><i class="bx bxl-whatsapp"></i></a>
-        </div>
-      </div>
-
-      <nav id="navbar" class="nav-menu navbar">
-        <ul>
-            <li><a href="index.html#hero" class="nav-link scrollto active"><i class="bx bx-home"></i> <span>Home</span></a></li>
-            <li><a href="index.html#about" class="nav-link scrollto"><i class="bx bx-user"></i> <span>About</span></a></li>
-            <li><a href="index.html#cv" class="nav-link scrollto"><i class="bx bx-file-blank"></i> <span>Curriculum Vitae</span></a></li>
-            <li><a href="index.html#skills" class="nav-link scrollto"><i class="bx bx-code"></i> <span>Skills</span></a></li>
-            <li><a href="index.html#achievements" class="nav-link scrollto"><i class="bx bx-award"></i> <span>Awards</span></a></li>
-            <li><a href="index.html#portfolio" class="nav-link scrollto"><i class="bx bx-book-content"></i> <span>Projects</span></a></li>
-            <li><a href="index.html#testimonials" class="nav-link scrollto"><i class="bi bi-patch-check"></i> <span>Testimonials</span></a></li>          
-            <li><a href="index.html#contact" class="nav-link scrollto"><i class="bx bx-envelope"></i> <span>Contact</span></a></li>
-        </ul>
-      </nav>
-      
-    </div>
-  </header><!-- End Header -->
-
-
-  <main id="main">
-
-    <!-- ======= Breadcrumbs ======= -->
-    <section id="breadcrumbs" class="breadcrumbs">
-      <div class="container">
-
-        <div class="d-flex justify-content-between align-items-center">
-          <h2>Project Details</h2>
-          <ol>
-            <li><a href="index.html#portfolio">Projects</a></li>
-            <li>Environmental Impact Dashboard for Critical Infrastructure</li>
-          </ol>
-        </div>
-
-      </div>
-    </section><!-- End Breadcrumbs -->
-
-    <!-- ======= Portfolio Details Section ======= -->
-    <section id="portfolio-details" class="portfolio-details">
-      <div class="container">
-        <div class="row gy-4">
-          <div class="col-lg-8">
-            <div class="portfolio-details-slider swiper">
-              <div class="swiper-wrapper align-items-center">
-                <div class="swiper-slide">
-                  <img src="assets/img/portfolio/dashboard_headcomp/1.png" alt="">
-                </div>
-                <div class="swiper-slide">
-                  <img src="assets/img/portfolio/dashboard_headcomp/2.png" alt="">
-                </div>
-                <div class="swiper-slide">
-                  <img src="assets/img/portfolio/dashboard_headcomp/3.png" alt="">
-                </div>
-                <div class="swiper-slide">
-                  <img src="assets/img/portfolio/dashboard_headcomp/4.png" alt="">
-                </div>
-                <div class="swiper-slide">
-                  <img src="assets/img/portfolio/dashboard_headcomp/5.png" alt="">
-                </div>
-                <div class="swiper-slide">
-                  <img src="assets/img/portfolio/dashboard_headcomp/6.png" alt="">
-                </div>
-                <div class="swiper-slide">
-                  <img src="assets/img/portfolio/dashboard_headcomp/7.png" alt="">
-                </div>
-                <div class="swiper-slide">
-                  <img src="assets/img/portfolio/dashboard_headcomp/8.png" alt="">
-                </div>
-                <div class="swiper-slide">
-                  <img src="assets/img/portfolio/dashboard_headcomp/9.png" alt="">
-                </div>
-                <div class="swiper-slide">
-                  <img src="assets/img/portfolio/dashboard_headcomp/10.png" alt="">
-                </div>
-                <div class="swiper-slide">
-                  <img src="assets/img/portfolio/dashboard_headcomp/11.png" alt="">
-                </div>
-                <div class="swiper-slide">
-                  <img src="assets/img/portfolio/dashboard_headcomp/12.png" alt="">
-                </div>
-              </div>
-              <div class="swiper-pagination"></div>
-            </div>
-          </div>
-
-          <div class="col-lg-4">
-            <div class="portfolio-info">
-              <h3>Project Information</h3>
-              <ul>
-                <li><strong>Category:</strong> Data Analytics</li>
-                <li><strong>Project URL:</strong> <a href="https://lookerstudio.google.com/s/oaU4rccMuqI" class="github" target="_blank">Looker Studio Link</a></li>
-                <li><strong>Presentation:</strong> <a href="assets/files/Portfolio/portfolio_headcomp_dashboard.pdf" class="github" target="_blank">Dashboard Project Presentation</a></li>
-              </ul>
-            </div>
-            <div class="portfolio-description">
-              <h3>Description</h3>
-              <p>
-                "Assessing Risk of Extreme Weather on Facilities Maintenance" is an interactive tool designed to analyze and visualize the impact of climate variables on critical infrastructure in Hamilton, Ontario. This dashboard enables stakeholders to assess how factors such as building age, location, facility type and size, along with climate data (ice days, cold cycles, hours of sunlight, humidity, and precipitation), affect the condition and performance of essential infrastructures. Leveraging Looker Studio and BigQuery, the project offers an accessible and collaborative solution for data-driven decision-making, providing impactful visualizations and practical solutions that address real-world infrastructure challenges. The effectiveness and applicability of the dashboard in environmental data analysis were recognized by winning the main competition in higher education data analysis.
-              </p>
-              <ul>
-                <li><strong>Tools and Technologies Used:</strong></li>
-              </ul>
-              <ol>
-                <li>Looker Studio</li>
-                <li>BigQuery</li>
-              </ol>
-            </div>            
-          </div>
-        </div>
-      </div>
-    </section><!-- End Portfolio Details Section -->
-
-  </main><!-- End #main -->
-
-  <!-- ======= Footer ======= -->
-  <footer id="footer">
+  <section class="project-hero">
     <div class="container">
-      <div class="copyright">
-        &copy; Copyright <strong><span>iPortfolio</span></strong>
+      <div class="crumbs reveal">
+        <a href="index.html">Portfolio</a>
+        <span class="sep">/</span>
+        <a href="index.html#projects">Projects</a>
+        <span class="sep">/</span>
+        <span>Environmental Impact Dashboard</span>
       </div>
-      <div class="credits">
-        <!-- All the links in the footer should remain intact. -->
-        <!-- You can delete the links only if you purchased the pro version. -->
-        <!-- Licensing information: https://bootstrapmade.com/license/ -->
-        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/iportfolio-bootstrap-portfolio-websites-template/ -->
-        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+
+      <div class="project-tag-row reveal">
+        <span class="tag tag-green">Data Analytics</span>
+        <span class="tag tag-accent">BI Dashboard</span>
+      </div>
+
+      <h1 class="project-title reveal">
+        <span class="grad">Environmental Impact Dashboard</span><br />for Critical Infrastructure
+      </h1>
+      <p class="project-lede reveal">
+        Interactive Looker Studio dashboard that analyzes and visualizes the impact of climate variables on critical infrastructure in Hamilton, Ontario. Core project behind our first-place finish in the HEAD Competition 2024.
+      </p>
+
+      <div class="meta-grid reveal">
+        <div class="meta-item">
+          <span class="meta-key">Category</span>
+          <span class="meta-val">Data Analytics</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-key">Project URL</span>
+          <span class="meta-val"><a href="https://lookerstudio.google.com/s/oaU4rccMuqI" target="_blank" rel="noopener">Looker Studio →</a></span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-key">Related</span>
+          <span class="meta-val"><a href="head_competition.html">HEAD Award case →</a></span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-key">Year</span>
+          <span class="meta-val">2024</span>
+        </div>
+      </div>
+
+      <ul class="stack-row reveal">
+        <li>Looker Studio</li><li>BigQuery</li><li>SQL</li><li>Geospatial</li>
+      </ul>
+
+      <div class="hero-image reveal">
+        <img src="assets/img/portfolio/Dashboard-headcomp.jpg" alt="Environmental Impact Dashboard preview" loading="lazy" />
       </div>
     </div>
-  </footer><!-- End  Footer -->
+  </section>
 
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <main class="content">
+    <div class="container">
 
-  <!-- Vendor JS Files -->
-  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
-  <script src="assets/vendor/aos/aos.js"></script>
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-  <script src="assets/vendor/typed.js/typed.umd.js"></script>
-  <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
+      <section class="section-block reveal">
+        <span class="section-num">01 · ABOUT</span>
+        <h2>Description</h2>
+        <p>"Assessing Risk of Extreme Weather on Facilities Maintenance" is an interactive tool designed to analyze and visualize the impact of climate variables on critical infrastructure in Hamilton, Ontario. The dashboard combines maintenance cost data with weather variables to identify which buildings are most vulnerable to climate change and how budget allocation should evolve over time.</p>
 
-  <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
+        <div class="callout">
+          <div class="callout-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><polyline points="7 14 11 10 15 14 21 8"/></svg>
+          </div>
+          <p>Built so that judges, managers and city planners could explore the data interactively — drill down by ward, filter by climate variable, and project future scenarios.</p>
+        </div>
+      </section>
 
-  <script src="assets/js/menu-visibility.js"></script>
+      <section class="section-block reveal">
+        <span class="section-num">02 · TECH STACK</span>
+        <h2>Tools and Technologies</h2>
+        <ul>
+          <li><strong>Looker Studio</strong> — interactive front-end and storytelling layer</li>
+          <li><strong>BigQuery</strong> — data warehouse for climate + maintenance datasets</li>
+          <li><strong>SQL</strong> — feature engineering and aggregation queries</li>
+          <li><strong>Geospatial mapping</strong> — vulnerability heatmaps by ward</li>
+        </ul>
+      </section>
 
+      <section class="section-block reveal">
+        <span class="section-num">03 · IMPACT</span>
+        <h2>Why this dashboard mattered</h2>
+        <p>By turning a static dataset into a living tool, we gave judges and stakeholders a concrete way to interrogate the data. This was a key differentiator that helped our team stand out in the final round of the HEAD Competition.</p>
+      </section>
+
+      <div class="cta-back">
+        <p>Want to see the live dashboard?</p>
+        <a href="https://lookerstudio.google.com/s/oaU4rccMuqI" target="_blank" rel="noopener" class="btn btn-primary">
+          Open in Looker Studio
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© <span id="year">2026</span> Edwin Santos Vidal · Lima, Peru</span>
+      <a href="index.html" style="color:var(--accent)">← Back to portfolio</a>
+    </div>
+  </footer>
+
+  <script src="project-dark.js"></script>
 </body>
-
 </html>
