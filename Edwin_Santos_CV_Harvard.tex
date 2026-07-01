@@ -1,0 +1,136 @@
+%-------------------------------------------------------------------------------
+% Edwin Santos Vidal — Résumé (Harvard OCS style)
+% One-page, conservative, black & white. Compile: pdflatex Edwin_Santos_CV_Harvard.tex
+%-------------------------------------------------------------------------------
+\documentclass[10pt,letterpaper]{article}
+
+% ---------- Packages ----------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[margin=0.5in,top=0.4in,bottom=0.4in]{geometry}
+\usepackage{mathptmx}                    % Times-like serif
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage[none]{hyphenat}
+\usepackage{parskip}
+
+\hypersetup{
+  colorlinks=false,
+  pdfborder={0 0 0},
+  pdftitle={Edwin Santos Vidal — Résumé},
+  pdfauthor={Edwin Santos Vidal}
+}
+
+% ---------- Section formatting (Harvard classic: small caps + rule) ----------
+\titleformat{\section}
+  {\small\scshape\bfseries}
+  {}{0em}{}[\vspace{-5pt}\rule{\linewidth}{0.5pt}]
+\titlespacing*{\section}{0pt}{3pt}{1pt}
+
+% ---------- List spacing ----------
+\setlist[itemize]{leftmargin=1em,itemsep=-1pt,topsep=-1pt,parsep=0pt,label=\textbullet}
+
+\linespread{0.97}
+
+% ---------- Custom entry macros ----------
+% \entryhead{org}{location}
+\newcommand{\entryhead}[2]{%
+  \noindent\begin{tabularx}{\linewidth}{@{}X r@{}}
+    \textbf{#1} & \textbf{#2}
+  \end{tabularx}\par
+}
+% \entryrole{title}{dates}
+\newcommand{\entryrole}[2]{%
+  \noindent\begin{tabularx}{\linewidth}{@{}X r@{}}
+    \textit{#1} & \textit{#2}
+  \end{tabularx}\par\vspace{1pt}
+}
+
+% ---------- Document ----------
+\begin{document}
+\pagestyle{empty}
+
+%-------------------------------------------------------------------------------
+% HEADER (centered — Harvard style)
+%-------------------------------------------------------------------------------
+\begin{center}
+  {\LARGE\bfseries EDWIN SANTOS VIDAL}\\[2pt]
+  {\small Lima, Perú \textperiodcentered\ +51 915 077 667 \textperiodcentered\ \href{mailto:edwin.santos@pucp.pe}{edwin.santos@pucp.pe}}\\[1pt]
+  {\small \href{https://www.linkedin.com/in/edwinsantosvidal/}{linkedin.com/in/edwinsantosvidal} \textperiodcentered\ \href{https://github.com/edwinsantosv}{github.com/edwinsantosv} \textperiodcentered\ \href{https://edwinsantosv.github.io/portfolio-v2.github.io/}{portfolio}}
+\end{center}
+
+%-------------------------------------------------------------------------------
+% EDUCATION (first — Harvard convention)
+%-------------------------------------------------------------------------------
+\section*{Education}
+
+\entryhead{Pontificia Universidad Católica de Chile}{Santiago, Chile}
+\entryrole{MSc, Business Analytics}{2025 --- Present}
+\begin{itemize}
+  \item Program ranked \#1 in Latin America for Business Analytics. Coursework in advanced analytics, decision science, applied ML and business strategy.
+\end{itemize}
+\vspace{0pt}
+
+\entryhead{Mohawk College}{Hamilton, Canada}
+\entryrole{Graduate Certificate, Analytics for Business Decision Making}{2023 --- 2024}
+\begin{itemize}
+  \item Graduated with Honors (94.2\% GPA); 1st place in the HEAD Competition among 40+ teams from Ontario colleges. Coursework: Applied ML, CRISP-DM, Data Mining, Statistics.
+\end{itemize}
+\vspace{0pt}
+
+\entryhead{Pontificia Universidad Católica del Perú (PUCP)}{Lima, Perú}
+\entryrole{Diploma, Business Intelligence}{2021}
+\entryrole{Bachelor of Science, Mechanical Engineering}{2012 --- 2020}
+
+%-------------------------------------------------------------------------------
+% EXPERIENCE
+%-------------------------------------------------------------------------------
+\section*{Experience}
+
+\entryhead{Wings4U}{Prague, Czech Republic (Remote)}
+\entryrole{Automation Analyst, Consultant}{2025 --- Present}
+\begin{itemize}
+  \item Consulting for a global B2B Customer Marketing \& Advocacy agency serving enterprise technology clients.
+  \item Design low-code solutions and build custom Model Context Protocols (MCPs) powering the Customer Advocacy Intelligence stack; package AI-driven insights that Wings4U resells to enterprise clients.
+\end{itemize}
+\vspace{0pt}
+
+\entryhead{CQ Fluency}{New Jersey, USA (Remote)}
+\entryrole{Business Analyst}{2023 --- Present}
+\begin{itemize}
+  \item Own Power BI dashboards and Power Platform automations for multiple internal teams and Project Managers.
+  \item Build Python automations (Pandas, MySQL, NumPy) and Power Automate flows; lead requirements discovery with stakeholders.
+\end{itemize}
+\vspace{0pt}
+
+\entryhead{Universidad San Martín de Porres (USMP)}{Lima, Perú}
+\entryrole{Instructor, Power BI Bootcamp}{2025 --- Present}
+\begin{itemize}
+  \item Lead instructor of an end-to-end curriculum (data modeling, DAX, storytelling, dashboards) for 100+ students; mentor on real business cases.
+\end{itemize}
+\vspace{0pt}
+
+\entryhead{Valia}{Delaware, USA (Remote)}
+\entryrole{Business Intelligence Engineer}{2022 --- 2023}
+\begin{itemize}
+  \item Delivered 60+ Looker Studio reports; built PostgreSQL queries and AWS $\rightarrow$ BigQuery pipelines; contributed to LLM integration (Valia's Copilot) and HubSpot/Google Analytics API connections.
+\end{itemize}
+\vspace{0pt}
+
+\entryhead{Ove Decors}{Montreal, Canada (Remote)}
+\entryrole{Product Analyst}{2021 --- 2022}
+\begin{itemize}
+  \item Automated invoice processing with Power Automate + AI Builder OCR (reduced manual processing time by 95\%); built Power BI dashboards on MySQL and web-scraping pipelines (Amazon, Overstock) for competitive intelligence.
+\end{itemize}
+
+%-------------------------------------------------------------------------------
+% SKILLS, LEADERSHIP & ADDITIONAL INFORMATION
+%-------------------------------------------------------------------------------
+\section*{Skills, Leadership \& Additional Information}
+\noindent\textbf{Technical:} Power BI, Power Platform (Automate, Apps, AI Builder), Python (Pandas, NumPy), SQL (PostgreSQL, BigQuery, MySQL), R, DAX, AWS, GCP, Airflow, GenAI, LLMs, MCPs, Machine Learning, NLP.\par
+\noindent\textbf{Leadership \& Awards:} \textit{Team Lead --- 1st place, HEAD Competition (Mohawk College, 2024; 40+ teams).} \textit{Team Lead --- 1st place + Global Nominee, NASA Space Apps Challenge (Lima, 2021; 1{,}600 participants).}\par
+\noindent\textbf{Languages:} Spanish (Native), English (Professional --- C1), Portuguese (Intermediate --- B1).
+
+\end{document}
