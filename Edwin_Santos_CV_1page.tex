@@ -1,0 +1,197 @@
+%-------------------------------------------------------------------------------
+% Edwin Santos Vidal — CV (compact, single page)
+% Compile with: pdflatex Edwin_Santos_CV_1page.tex
+%-------------------------------------------------------------------------------
+\documentclass[10pt,letterpaper]{article}
+
+% ---------- Packages ----------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[margin=0.4in,top=0.35in,bottom=0.35in]{geometry}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{charter}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage[none]{hyphenat}
+\usepackage{parskip}
+
+% ---------- Colors ----------
+\definecolor{ink}{HTML}{0F172A}
+\definecolor{inkdim}{HTML}{475569}
+\definecolor{inkmute}{HTML}{64748B}
+\definecolor{accent}{HTML}{6366F1}
+\definecolor{chip}{HTML}{F1F5F9}
+\definecolor{line}{HTML}{E2E8F0}
+
+% ---------- Hyperref ----------
+\hypersetup{
+  colorlinks=true,
+  urlcolor=accent,
+  linkcolor=accent,
+  pdftitle={Edwin Santos Vidal — CV},
+  pdfauthor={Edwin Santos Vidal}
+}
+
+% ---------- Section formatting (compact) ----------
+\titleformat{\section}
+  {\color{accent}\sffamily\bfseries\scshape\footnotesize}
+  {}{0em}{}[\vspace{-3pt}\textcolor{line}{\rule{\linewidth}{0.5pt}}]
+\titlespacing*{\section}{0pt}{5pt}{2pt}
+
+% ---------- Compact list spacing ----------
+\setlist[itemize]{leftmargin=1em,itemsep=0pt,topsep=1pt,parsep=0pt}
+
+% ---------- Line spacing ----------
+\linespread{0.98}
+
+% ---------- Macros ----------
+\newcommand{\jobheader}[4]{%
+  \noindent\begin{tabularx}{\linewidth}{@{}X r@{}}
+    \textbf{\color{ink}\small #1} & \textcolor{inkmute}{\footnotesize #3} \\[-1pt]
+    \textcolor{inkdim}{\footnotesize #2} & \textcolor{inkmute}{\footnotesize\itshape #4}
+  \end{tabularx}\par\vspace{1pt}
+}
+
+\newcommand{\eduline}[4]{%
+  \noindent\begin{tabularx}{\linewidth}{@{}X r@{}}
+    \textbf{\color{ink}\small #1} \textcolor{inkdim}{\footnotesize --- #2} & \textcolor{inkmute}{\footnotesize #3}
+  \end{tabularx}%
+  \ifx&#4&\else\par\textcolor{ink}{\footnotesize #4}\fi
+  \par\vspace{1pt}
+}
+
+\newcommand{\chip}[1]{%
+  \colorbox{chip}{\textcolor{ink}{\footnotesize\,#1\,}}\hspace{0pt}
+}
+
+\newcommand{\accentchip}[1]{%
+  \colorbox{chip}{\textcolor{accent}{\footnotesize\bfseries\,#1\,}}
+}
+
+% ---------- Document ----------
+\begin{document}
+\pagestyle{empty}
+\color{ink}
+
+%-------------------------------------------------------------------------------
+% HEADER
+%-------------------------------------------------------------------------------
+\noindent
+\begin{minipage}[t]{0.58\linewidth}
+  \vspace{0pt}
+  {\LARGE\bfseries Edwin Santos Vidal}\par
+  \vspace{1pt}
+  \textcolor{inkdim}{\footnotesize Business Analyst \textperiodcentered\ Automation Consultant \textperiodcentered\ Instructor}
+\end{minipage}%
+\hfill
+\begin{minipage}[t]{0.40\linewidth}
+  \vspace{0pt}
+  \raggedleft
+  \textcolor{inkdim}{\footnotesize
+    \textbf{\color{ink}Lima, Perú} \textperiodcentered\ Remote-first \textperiodcentered\
+    \href{mailto:edwin.santos@pucp.pe}{edwin.santos@pucp.pe} \textperiodcentered\
+    \href{tel:+51915077667}{+51 915 077 667} \\
+    \href{https://www.linkedin.com/in/edwinsantosvidal/}{linkedin.com/in/edwinsantosvidal} \textperiodcentered\
+    \href{https://github.com/edwinsantosv}{github.com/edwinsantosv} \\
+    \href{https://edwinsantosv.github.io/portfolio-v2.github.io/}{edwinsantosv.github.io/portfolio-v2.github.io}
+  }
+\end{minipage}
+\par\vspace{2pt}
+\textcolor{ink}{\rule{\linewidth}{1pt}}
+
+%-------------------------------------------------------------------------------
+% SUMMARY
+%-------------------------------------------------------------------------------
+\vspace{3pt}
+\noindent\footnotesize Business Analyst and Automation Consultant with 4+ years turning data into decisions for international teams across the US, Canada and Europe. Currently BI + Power Platform lead at CQ Fluency (US), GenAI + MCPs consultant at Wings4U (Czech Republic), and Power BI bootcamp instructor at USMP (100+ students). Pursuing an MSc Business Analytics at Pontificia Universidad Católica de Chile (\#1 LATAM). Open to senior / lead roles.
+
+%-------------------------------------------------------------------------------
+% EXPERIENCE
+%-------------------------------------------------------------------------------
+\section*{Experience}
+
+\jobheader{Automation Analyst \textperiodcentered\ Consultant}{Wings4U}{2025 --- Present}{Prague, Czech Republic (remote)}
+\begin{itemize}\footnotesize
+  \item Consulting for a global B2B Customer Marketing \& Advocacy agency serving enterprise tech clients.
+  \item Building custom \textbf{MCPs (Model Context Protocols)} + low-code solutions powering the Customer Advocacy Intelligence stack.
+  \item Packaging AI-driven insights that Wings4U resells to enterprise clients --- from advocacy data to revenue-ready deliverables.
+\end{itemize}
+
+\jobheader{Business Analyst}{CQ Fluency}{2023 --- Present}{New Jersey, USA (remote)}
+\begin{itemize}\footnotesize
+  \item Own Power BI dashboards and Power Platform automations for multiple internal teams and Project Managers.
+  \item Python automations (Pandas, MySQL, NumPy) + Power Automate flows for hours reporting --- reducing manual tracking overhead.
+  \item Requirements discovery with stakeholders, translating business needs into structured data requirements.
+\end{itemize}
+
+\jobheader{Instructor \textperiodcentered\ Power BI Bootcamp}{Universidad San Martín de Porres (USMP)}{2025 --- Present}{Lima, Perú}
+\begin{itemize}\footnotesize
+  \item Lead instructor: end-to-end curriculum (data modeling, DAX, storytelling, dashboards) for \textbf{100+ students}.
+  \item Mentoring on real business cases; preparing students to deliver executive-ready reports.
+\end{itemize}
+
+\jobheader{Business Intelligence Engineer}{Valia}{2022 --- 2023}{Delaware, USA (remote)}
+\begin{itemize}\footnotesize
+  \item \textbf{60+ visualization reports} in Looker Studio; complex PostgreSQL + AWS $\rightarrow$ BigQuery pipelines at scale.
+  \item Contributed to LLM integrations (Valia's Copilot); connected HubSpot + Google Analytics APIs for marketing reports.
+\end{itemize}
+
+\jobheader{Product Analyst}{Ove Decors}{2021 --- 2022}{Montreal, Canada (remote)}
+\begin{itemize}\footnotesize
+  \item Invoice OCR automation with Power Automate + AI Builder --- \textbf{$-95\%$ manual processing time}.
+  \item Power BI dashboards on MySQL + web scraping (Amazon, Overstock) for competitive intelligence.
+\end{itemize}
+
+%-------------------------------------------------------------------------------
+% EDUCATION
+%-------------------------------------------------------------------------------
+\section*{Education}
+
+\eduline{MSc \textperiodcentered\ Business Analytics}{Pontificia Universidad Católica de Chile}{2025 --- Present \textperiodcentered\ Santiago}{\accentchip{\#1 in LATAM for Business Analytics}}
+
+\eduline{Graduate Certificate \textperiodcentered\ Analytics for Business Decision Making}{Mohawk College}{2023 --- 2024 \textperiodcentered\ Hamilton, Canada}{\textcolor{inkdim}{\footnotesize Honors --- 94.2\% GPA --- 1st place HEAD Competition}}
+
+\eduline{Diploma \textperiodcentered\ Business Intelligence}{PUCP}{2021 \textperiodcentered\ Lima}{}
+
+\eduline{BSc \textperiodcentered\ Mechanical Engineering}{PUCP}{2012 --- 2020 \textperiodcentered\ Lima}{}
+
+%-------------------------------------------------------------------------------
+% SKILLS
+%-------------------------------------------------------------------------------
+\section*{Skills}
+\footnotesize
+\noindent\begin{tabularx}{\linewidth}{@{}l X@{}}
+  \textbf{Languages}      & \chip{Python} \chip{SQL} \chip{R} \chip{DAX} \chip{JavaScript} \\
+  \textbf{BI \& Viz}      & \chip{Power BI} \chip{Looker Studio} \chip{Tableau} \chip{Excel} \\
+  \textbf{Power Platform} & \chip{Power Automate} \chip{Power Apps} \chip{AI Builder / OCR} \chip{SharePoint} \chip{Dataverse} \\
+  \textbf{Data \& Cloud}  & \chip{PostgreSQL} \chip{BigQuery} \chip{MySQL} \chip{AWS} \chip{Airflow} \chip{APIs} \\
+  \textbf{GenAI \& ML}    & \chip{LLMs} \chip{MCPs} \chip{Prompt eng.} \chip{Machine Learning} \chip{NLP} \\
+  \textbf{Leadership}     & \chip{Team lead} \chip{Stakeholder mgmt} \chip{Consulting} \chip{Mentoring} \\
+\end{tabularx}
+
+%-------------------------------------------------------------------------------
+% AWARDS + LANGUAGES (two columns)
+%-------------------------------------------------------------------------------
+\begin{minipage}[t]{0.62\linewidth}
+  \section*{Awards}
+  \footnotesize
+  \textbf{1st place \textperiodcentered\ HEAD Competition} \hfill \textcolor{inkmute}{2024}\par
+  \textcolor{inkdim}{Mohawk College --- team lead of 40+ teams from Ontario colleges}\par
+  \vspace{1pt}
+  \textbf{1st place + Global Nominee \textperiodcentered\ NASA Space Apps} \hfill \textcolor{inkmute}{2021}\par
+  \textcolor{inkdim}{Lima --- team lead among 1{,}600 participants, 200 teams}
+\end{minipage}%
+\hfill
+\begin{minipage}[t]{0.34\linewidth}
+  \section*{Languages}
+  \footnotesize
+  \noindent\begin{tabularx}{\linewidth}{@{}X r@{}}
+    Spanish     & \textcolor{inkmute}{Native} \\
+    English     & \textcolor{inkmute}{Professional (C1)} \\
+    Portuguese  & \textcolor{inkmute}{Intermediate (B1)} \\
+  \end{tabularx}
+\end{minipage}
+
+\end{document}
