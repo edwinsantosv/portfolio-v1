@@ -3,7 +3,7 @@
 % Compile with: pdflatex Edwin_Santos_CV.tex  (or use Overleaf)
 % Requires standard TeX Live / MiKTeX packages. No custom fonts needed.
 %-------------------------------------------------------------------------------
-\documentclass[10.5pt,letterpaper]{article}
+\documentclass[10pt,letterpaper]{article}
 
 % ---------- Packages ----------
 \usepackage[utf8]{inputenc}
@@ -80,8 +80,17 @@
 %-------------------------------------------------------------------------------
 % HEADER
 %-------------------------------------------------------------------------------
-\begin{tabularx}{\linewidth}{@{}X r@{}}
-  {\Huge\bfseries Edwin Santos Vidal} &
+\noindent
+\begin{minipage}[t]{0.58\linewidth}
+  \vspace{0pt}
+  {\Huge\bfseries Edwin Santos Vidal}\par
+  \vspace{2pt}
+  \textcolor{inkdim}{\normalsize Business Analyst \textperiodcentered\ Automation Consultant \textperiodcentered\ Instructor}
+\end{minipage}%
+\hfill
+\begin{minipage}[t]{0.40\linewidth}
+  \vspace{0pt}
+  \raggedleft
   \textcolor{inkdim}{\small
     \textbf{\color{ink}Lima, Perú} \textperiodcentered\ Remote-first \\
     \href{mailto:edwin.santos@pucp.pe}{edwin.santos@pucp.pe} \\
@@ -89,10 +98,9 @@
     \href{https://www.linkedin.com/in/edwinsantosvidal/}{linkedin.com/in/edwinsantosvidal} \\
     \href{https://github.com/edwinsantosv}{github.com/edwinsantosv} \\
     \href{https://edwinsantosv.github.io/portfolio-v2.github.io/}{portfolio.edwinsantos.dev}
-  } \\
-  \textcolor{inkdim}{\normalsize Business Analyst \textperiodcentered\ Automation Consultant \textperiodcentered\ Instructor} &
-\end{tabularx}
-\vspace{-2pt}
+  }
+\end{minipage}
+\par\vspace{4pt}
 \textcolor{ink}{\rule{\linewidth}{1.4pt}}
 
 %-------------------------------------------------------------------------------
