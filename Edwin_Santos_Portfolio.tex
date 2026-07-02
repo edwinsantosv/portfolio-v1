@@ -1,0 +1,309 @@
+%-------------------------------------------------------------------------------
+% Edwin Santos Vidal — Portfolio Brochure
+% Compile with: pdflatex Edwin_Santos_Portfolio.tex  (or Overleaf)
+% Companion to the CV: focused on projects and case studies.
+%-------------------------------------------------------------------------------
+\documentclass[10pt,letterpaper]{article}
+
+% ---------- Packages ----------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[margin=0.5in]{geometry}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{charter}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{fontawesome5}
+\usepackage{tabularx}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage[none]{hyphenat}
+\usepackage{parskip}
+\usepackage{tikz}
+\usetikzlibrary{shadows.blur}
+
+% ---------- Colors ----------
+\definecolor{ink}{HTML}{0F172A}
+\definecolor{inkdim}{HTML}{475569}
+\definecolor{inkmute}{HTML}{64748B}
+\definecolor{accent}{HTML}{6366F1}
+\definecolor{accent2}{HTML}{EC4899}
+\definecolor{accent3}{HTML}{A855F7}
+\definecolor{chip}{HTML}{F1F5F9}
+\definecolor{line}{HTML}{E2E8F0}
+\definecolor{cardbg}{HTML}{FAFBFC}
+
+% ---------- Hyperlink style ----------
+\hypersetup{
+  colorlinks=true,
+  urlcolor=accent,
+  linkcolor=accent,
+  pdftitle={Edwin Santos Vidal — Portfolio},
+  pdfauthor={Edwin Santos Vidal}
+}
+
+% ---------- Section formatting ----------
+\titleformat{\section}
+  {\color{accent}\sffamily\bfseries\scshape\normalsize}
+  {}{0em}{}[\vspace{-4pt}\textcolor{line}{\rule{\linewidth}{0.6pt}}]
+\titlespacing*{\section}{0pt}{10pt}{4pt}
+
+\titleformat{\subsection}
+  {\color{ink}\bfseries\normalsize}{}{0em}{}
+\titlespacing*{\subsection}{0pt}{6pt}{2pt}
+
+% ---------- List spacing ----------
+\setlist[itemize]{leftmargin=1.0em,itemsep=1pt,topsep=2pt,parsep=0pt}
+
+% ---------- Chip macros ----------
+\newcommand{\chip}[1]{%
+  \colorbox{chip}{\textcolor{ink}{\footnotesize\,#1\,}}\hspace{1pt}
+}
+\newcommand{\accentchip}[1]{%
+  \colorbox{chip}{\textcolor{accent}{\footnotesize\bfseries\,#1\,}}\hspace{1pt}
+}
+\newcommand{\pinkchip}[1]{%
+  \colorbox{chip}{\textcolor{accent2}{\footnotesize\bfseries\,#1\,}}\hspace{1pt}
+}
+
+% ---------- Project card ----------
+\newcommand{\projectcard}[5]{%
+  % #1 = title, #2 = subtitle/context, #3 = description, #4 = tags, #5 = url
+  \noindent\begin{minipage}{\linewidth}
+    \textbf{\color{ink}#1}\hfill\textcolor{inkmute}{\small\href{#5}{view $\rightarrow$}}\\[-2pt]
+    \textcolor{accent}{\small\itshape #2}\par
+    \vspace{2pt}
+    \textcolor{inkdim}{\small #3}\par
+    \vspace{3pt}
+    #4
+  \end{minipage}\par\vspace{10pt}
+}
+
+\newcommand{\projectcardimg}[6]{%
+  % #1 = image, #2 = title, #3 = subtitle, #4 = description, #5 = tags, #6 = url
+  \noindent\begin{minipage}[t]{0.32\linewidth}
+    \vspace{0pt}
+    \includegraphics[width=\linewidth,height=1.6in,keepaspectratio]{#1}
+  \end{minipage}\hfill
+  \begin{minipage}[t]{0.65\linewidth}
+    \vspace{0pt}
+    \textbf{\color{ink}#2}\hfill\textcolor{inkmute}{\small\href{#6}{view $\rightarrow$}}\\[-2pt]
+    \textcolor{accent}{\small\itshape #3}\par
+    \vspace{2pt}
+    \textcolor{inkdim}{\small #4}\par
+    \vspace{4pt}
+    #5
+  \end{minipage}\par\vspace{12pt}
+}
+
+% ---------- Document ----------
+\begin{document}
+\pagestyle{empty}
+\color{ink}
+
+%===============================================================================
+% COVER
+%===============================================================================
+\begin{center}
+  \vspace*{20pt}
+  {\color{accent}\sffamily\bfseries\scshape\small PORTFOLIO \textperiodcentered\ 2026}\par
+  \vspace{18pt}
+  {\Huge\bfseries Edwin Santos Vidal}\par
+  \vspace{6pt}
+  {\Large\textcolor{inkdim}{Business Analyst \textperiodcentered\ Automation Consultant \textperiodcentered\ Instructor}}\par
+  \vspace{16pt}
+  \textcolor{ink}{\small Lima, Perú \textperiodcentered\ Remote-first \textperiodcentered\
+    \href{mailto:edwinrafaelsantosvidal@gmail.com}{edwinrafaelsantosvidal@gmail.com} \textperiodcentered\
+    \href{https://www.linkedin.com/in/edwinsantosvidal/}{LinkedIn} \textperiodcentered\
+    \href{https://github.com/edwinsantosv}{GitHub}
+  }\par
+  \vspace{10pt}
+  \textcolor{accent}{\small\href{https://edwinsantosv.github.io/portfolio-v2.github.io/}{edwinsantosv.github.io/portfolio-v2.github.io}}
+\end{center}
+
+\vspace{12pt}
+\textcolor{line}{\rule{\linewidth}{1pt}}
+\vspace{10pt}
+
+% Summary block
+\noindent\textcolor{inkdim}{
+  I turn data into decisions for international B2B teams. Currently splitting my time between
+  \textbf{\color{ink}CQ Fluency} (Business Analyst, New Jersey · US),
+  \textbf{\color{ink}Wings4U} (Automation Consultant, Prague · Czech Republic --- building custom MCPs for Customer Advocacy Intelligence), and
+  \textbf{\color{ink}USMP} (Power BI bootcamp instructor, Lima · Perú --- 100+ students trained).
+  Pursuing an MSc in Business Analytics at \textbf{\color{ink}Pontificia Universidad Católica de Chile}
+  --- ranked \accentchip{\#1 in LATAM}. Track record includes two 1st-place team-lead awards and 4+ years
+  of delivery across the US, Canada, and Europe.
+}
+
+\vspace{16pt}
+
+% Impact metrics row
+\noindent\begin{tabularx}{\linewidth}{X X X X}
+  {\Huge\bfseries\color{accent}60+}   & {\Huge\bfseries\color{accent}\textminus95\%} & {\Huge\bfseries\color{accent}4}     & {\Huge\bfseries\color{accent}100+} \\[-2pt]
+  \textcolor{inkdim}{\footnotesize Dashboards delivered} & \textcolor{inkdim}{\footnotesize OCR processing time cut}  & \textcolor{inkdim}{\footnotesize Countries served (US/CA/EU/PE)} & \textcolor{inkdim}{\footnotesize Students trained (Power BI)} \\
+\end{tabularx}
+
+\vspace{14pt}
+
+%===============================================================================
+% FEATURED PROJECTS
+%===============================================================================
+\section*{Featured Projects}
+
+\projectcardimg{assets/img/portfolio/Dashboard-headcomp.jpg}%
+  {Environmental Impact Dashboard}%
+  {HEAD Competition 2024 \textperiodcentered\ 1st place \textperiodcentered\ Team lead}%
+  {Interactive Looker Studio dashboard measuring climate risk to Hamilton infrastructure. Data pipeline from open datasets, custom KPIs and executive-ready storytelling. Beat 40 teams across Ontario colleges.}%
+  {\chip{Looker Studio}\chip{SQL}\chip{Data storytelling}\chip{Team lead}}%
+  {https://edwinsantosv.github.io/portfolio-v2.github.io/headcomp-dashboard.html}
+
+\projectcardimg{assets/img/portfolio/DAX_Query_automation.jpg}%
+  {DAX Query Automation with GenAI}%
+  {CQ Fluency \textperiodcentered\ Power Automate + Deepseek API}%
+  {Natural-language prompt $\rightarrow$ production-ready DAX for Power BI. Orchestrated via Power Automate, cutting measure development time and syntax errors on repeat tasks.}%
+  {\chip{Power Automate}\chip{DAX}\chip{Deepseek}\chip{GenAI}\chip{Power BI}}%
+  {https://edwinsantosv.github.io/portfolio-v2.github.io/DAX-query-automation.html}
+
+\projectcardimg{assets/img/portfolio/powerautomate-ocr.jpg}%
+  {Invoice OCR Automation}%
+  {Ove Decors \textperiodcentered\ Power Automate + AI Builder}%
+  {End-to-end invoice ingestion: email trigger $\rightarrow$ AI Builder OCR $\rightarrow$ SharePoint + ERP push. Reduced manual processing time by \textbf{95\%}, freeing the ops team from repetitive entry.}%
+  {\chip{Power Automate}\chip{AI Builder}\chip{OCR}\chip{SharePoint}\pinkchip{-95\% time}}%
+  {https://edwinsantosv.github.io/portfolio-v2.github.io/form-processing-ocr.html}
+
+\projectcardimg{assets/img/portfolio/powerautomate-joinlists.jpg}%
+  {Power Automate --- List Joins Pattern}%
+  {CQ Fluency \textperiodcentered\ Automation methodology}%
+  {Reusable pattern to perform SQL-style joins across SharePoint / Dataverse lists inside Power Automate. Documented as a case study to onboard new analysts.}%
+  {\chip{Power Automate}\chip{SharePoint}\chip{Dataverse}\chip{Reusable pattern}}%
+  {https://edwinsantosv.github.io/portfolio-v2.github.io/perform_joins_powerautomate.html}
+
+%===============================================================================
+% CASE STUDIES / CONSULTING WORK
+%===============================================================================
+\pagebreak
+\section*{Current Consulting Work}
+
+\subsection*{Wings4U --- Customer Advocacy Intelligence (MCPs + Low-code)}
+\textcolor{accent}{\small\itshape Prague, Czech Republic \textperiodcentered\ 2026 --- Present}
+\vspace{4pt}
+
+\noindent\textcolor{inkdim}{\small
+Wings4U is a global B2B Customer Marketing \& Advocacy agency serving enterprise tech clients.
+As Automation Consultant I am designing the internal \textbf{Customer Advocacy Intelligence} layer that
+Wings4U packages and resells to its clients.
+}
+\vspace{2pt}
+\begin{itemize}
+  \item Custom \textbf{MCPs (Model Context Protocol)} servers connecting advocacy data (case studies, reference calls, feedback) with LLM-driven client deliverables.
+  \item Low-code workflows and standalone executables to operationalise the intelligence stack --- reducing time-to-insight for the delivery team.
+  \item Documentation and productization: turning proprietary tooling into repeatable AI-driven services that clients can subscribe to.
+\end{itemize}
+\vspace{2pt}
+\noindent\textbf{Stack:}\ \chip{MCPs}\chip{Python}\chip{n8n}\chip{Power Automate}\chip{LLMs (Claude / GPT / Gemini)}\chip{APIs}
+\vspace{6pt}
+
+\subsection*{USMP --- Power BI Bootcamp (Instructor)}
+\textcolor{accent}{\small\itshape Universidad San Martín de Porres \textperiodcentered\ Lima, Perú \textperiodcentered\ 2026 --- Present}
+\vspace{4pt}
+
+\noindent\textcolor{inkdim}{\small
+Lead instructor of the Power BI bootcamp: full curriculum from data ingestion and modeling
+to DAX, storytelling and executive-ready dashboards. \textbf{100+ students trained}, most from
+non-technical backgrounds transitioning into analytics roles.
+}
+\vspace{2pt}
+\begin{itemize}
+  \item Curriculum design: modules on Power Query, star schema modeling, DAX (calculated columns vs. measures), and stakeholder storytelling.
+  \item Real business cases used as assessments --- students deliver dashboards for actual internal or partner scenarios.
+  \item Mentoring on career paths into BA / BI roles: portfolio building, resume feedback, LinkedIn positioning.
+\end{itemize}
+\vspace{6pt}
+
+\subsection*{CQ Fluency --- Business Analyst}
+\textcolor{accent}{\small\itshape New Jersey, USA (remote) \textperiodcentered\ 2023 --- Present}
+\vspace{4pt}
+
+\noindent\textcolor{inkdim}{\small
+Own the Power BI + Power Platform stack for multiple internal teams. Focus on Project Managers
+and Operations: turning weekly ops reporting into automated, self-service dashboards.
+}
+\vspace{2pt}
+\begin{itemize}
+  \item Power BI dashboards for weekly PM cadence --- reduced hours-reporting turnaround via Power Automate flows.
+  \item Python (Pandas, NumPy) + MySQL automations supporting data quality and reporting workflows.
+  \item Requirements discovery: translating business needs into structured data models and dashboard specs.
+\end{itemize}
+
+%===============================================================================
+% PAST HIGHLIGHTS
+%===============================================================================
+\vspace{6pt}
+\section*{Past Highlights}
+
+\projectcard{Valia --- Business Intelligence Engineer}%
+  {Delaware, USA \textperiodcentered\ 2022 --- 2023}%
+  {\textbf{60+ Looker Studio reports} for internal and client-facing dashboards.
+   Complex PostgreSQL queries + AWS $\rightarrow$ BigQuery transformations at scale.
+   Contributed to Valia's Copilot (LLM integration) and connected HubSpot + Google Analytics APIs for marketing reporting.}%
+  {\chip{Looker Studio}\chip{PostgreSQL}\chip{BigQuery}\chip{AWS}\chip{HubSpot API}\chip{LLM}}%
+  {https://edwinsantosv.github.io/portfolio-v2.github.io/}
+
+\projectcard{NASA Space Apps --- SPACE ROOTS}%
+  {Lima 2021 \textperiodcentered\ 1st place \textperiodcentered\ Global Nominee \textperiodcentered\ Team lead}%
+  {Team lead among 1,600 participants (200 teams). Designed an agricultural module with humidity, mold and pressure sensors visualized live in Grafana. Selected as Global Nominee for the NASA international round.}%
+  {\chip{IoT}\chip{Grafana}\chip{Team lead}\pinkchip{1st place + Global Nominee}}%
+  {https://edwinsantosv.github.io/portfolio-v2.github.io/spaceapps.html}
+
+\projectcard{Lils in London --- Scholarship Knowledge Base}%
+  {Freelance \textperiodcentered\ 2024 --- Present}%
+  {Web platform + knowledge base to help scholarship advisors serve students applying to programs abroad. MVP demo scheduled for July 2026.}%
+  {\chip{Web}\chip{KB}\chip{Advisory automation}}%
+  {https://edwinsantosv.github.io/portfolio-v2.github.io/scholarship_website.html}
+
+%===============================================================================
+% AWARDS + LANGUAGES + CONTACT
+%===============================================================================
+\vspace{4pt}
+\begin{minipage}[t]{0.48\linewidth}
+  \section*{Awards \& Recognition}
+  \textbf{1st place \textperiodcentered\ HEAD Competition} \hfill \textcolor{inkmute}{\small 2024}\par
+  \textcolor{inkdim}{\footnotesize Mohawk College --- team lead, 40+ teams from Ontario colleges}\par
+  \vspace{4pt}
+  \textbf{1st place + Global Nominee \textperiodcentered\ NASA Space Apps} \hfill \textcolor{inkmute}{\small 2021}\par
+  \textcolor{inkdim}{\footnotesize Lima --- team lead among 1{,}600 participants, 200 teams}\par
+  \vspace{4pt}
+  \textbf{Honors \textperiodcentered\ 94.2\% GPA} \hfill \textcolor{inkmute}{\small 2024}\par
+  \textcolor{inkdim}{\footnotesize Analytics for Business Decision Making --- Mohawk College}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.48\linewidth}
+  \section*{Certifications \& Languages}
+  \textbf{PL-300} \textcolor{inkmute}{\footnotesize --- Microsoft Power BI Data Analyst Associate}\par
+  \vspace{6pt}
+  \begin{tabularx}{\linewidth}{@{}X r@{}}
+    Spanish     & \textcolor{inkmute}{\small Native} \\
+    English     & \textcolor{inkmute}{\small Professional (C1)} \\
+    Portuguese  & \textcolor{inkmute}{\small Intermediate (B1)} \\
+  \end{tabularx}
+\end{minipage}
+
+\vspace{18pt}
+
+% CTA footer
+\noindent\colorbox{chip}{%
+  \begin{minipage}{\dimexpr\linewidth-2\fboxsep\relax}
+    \vspace{6pt}
+    \begin{center}
+      {\bfseries\color{ink}Let's build something.}\par
+      \vspace{4pt}
+      {\small\color{inkdim}Available for \textbf{\color{ink}senior / lead roles} (full-time or consulting) --- BI, Automation, GenAI \& Advocacy Intelligence.}\par
+      \vspace{3pt}
+      {\small\color{inkdim}\href{mailto:edwinrafaelsantosvidal@gmail.com}{edwinrafaelsantosvidal@gmail.com} \textperiodcentered\ \href{https://wa.me/51915077667}{+51 915 077 667} \textperiodcentered\ \href{https://calendly.com/edwinsantosvidal/30min}{Book a 30-min intro call}}\par
+      \vspace{6pt}
+    \end{center}
+  \end{minipage}
+}
+
+\end{document}

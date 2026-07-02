@@ -42,6 +42,10 @@
       </ul>
 
       <div class="nav-actions">
+        <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema">
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-sun"  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+        </button>
         <button id="lang-toggle" class="lang-toggle" aria-label="Cambiar idioma">
           <span class="lang-current">ES</span>
           <span class="lang-divider">/</span>
@@ -346,6 +350,21 @@
               <li>Consulting</li>
             </ul>
           </article>
+        </div>
+
+        <!-- Certifications -->
+        <h3 class="more-title reveal" data-i18n="skills.certs">Certifications</h3>
+        <div class="certs-grid">
+          <a class="cert-card reveal" href="https://learn.microsoft.com/credentials/certifications/data-analyst-associate/" target="_blank" rel="noopener">
+            <div class="cert-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="13" width="3" height="5"/><rect x="12" y="9" width="3" height="9"/><rect x="17" y="5" width="3" height="13"/></svg>
+            </div>
+            <div class="cert-info">
+              <h4>PL-300 · Power BI Data Analyst Associate</h4>
+              <p data-i18n="skills.certPl300">Microsoft Certified — end-to-end Power BI data preparation, modeling, visualization and analysis.</p>
+              <a href="https://learn.microsoft.com/credentials/certifications/data-analyst-associate/">Microsoft Learn ↗</a>
+            </div>
+          </a>
         </div>
       </div>
     </section>
@@ -856,11 +875,21 @@
         </div>
 
         <div class="cv-cta reveal">
-          <p data-i18n="exp.cta">Want to see the full CV?</p>
-          <a href="cv.html" class="btn btn-primary">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
-            <span data-i18n="exp.download">View / Print CV</span>
-          </a>
+          <p data-i18n="exp.cta">Want to see the full CV or download the portfolio?</p>
+          <div class="cv-cta-actions">
+            <a href="cv.html" class="btn btn-primary">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+              <span data-i18n="exp.download">View / Print CV</span>
+            </a>
+            <a href="Edwin_Santos_CV.pdf" download class="btn btn-ghost">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              <span data-i18n="exp.downloadPdf">Download CV (PDF)</span>
+            </a>
+            <a href="Edwin_Santos_Portfolio.pdf" download class="btn btn-ghost">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="M21 15l-5-5L5 21"/></svg>
+              <span data-i18n="exp.downloadPortfolio">Download Portfolio (PDF)</span>
+            </a>
+          </div>
         </div>
       </div>
     </section>
@@ -931,12 +960,12 @@
                 </a>
               </li>
               <li>
-                <a href="mailto:edwin.santos@pucp.pe">
+                <a href="mailto:edwinrafaelsantosvidal@gmail.com">
                   <span class="contact-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
                   </span>
                   <span class="contact-key">Email</span>
-                  <span class="contact-val">edwin.santos@pucp.pe</span>
+                  <span class="contact-val">edwinrafaelsantosvidal@gmail.com</span>
                 </a>
               </li>
               <li>

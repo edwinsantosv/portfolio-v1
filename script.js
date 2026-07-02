@@ -46,6 +46,8 @@
       'skills.c5': 'Cloud & Data',
       'skills.c6': 'ML / IA · GenAI',
       'skills.c7': 'Liderazgo & Delivery',
+      'skills.certs': 'Certificaciones',
+      'skills.certPl300': 'Microsoft Certified — preparación, modelado, visualización y análisis de datos end-to-end en Power BI.',
 
       'projects.title': 'Proyectos destacados',
       'projects.featured': 'Award · Featured',
@@ -85,8 +87,10 @@
       'exp.edu1t': 'Graduate Certificate · Analytics for Business Decision Making',
       'exp.edu2t': 'Diploma · Business Intelligence',
       'exp.edu3t': 'Bachelor of Science · Mechanical Engineering',
-      'exp.cta': '¿Quieres ver el CV completo?',
+      'exp.cta': '¿Quieres ver el CV completo o descargar el portafolio?',
       'exp.download': 'Ver / Imprimir CV',
+      'exp.downloadPdf': 'Descargar CV (PDF)',
+      'exp.downloadPortfolio': 'Descargar Portafolio (PDF)',
 
       'awards.title': 'Premios & Reconocimientos',
       'awards.a1': 'Líder de equipo a cargo de la estrategia de datos, gestión y storytelling. Construimos un poster de análisis y un modelo de Machine Learning sobre los efectos del cambio climático en edificios de Hamilton.',
@@ -146,6 +150,8 @@
       'skills.c5': 'Cloud & Data',
       'skills.c6': 'ML / AI · GenAI',
       'skills.c7': 'Leadership & Delivery',
+      'skills.certs': 'Certifications',
+      'skills.certPl300': 'Microsoft Certified — end-to-end Power BI data preparation, modeling, visualization and analysis.',
 
       'projects.title': 'Featured projects',
       'projects.featured': 'Award · Featured',
@@ -185,8 +191,10 @@
       'exp.edu1t': 'Graduate Certificate · Analytics for Business Decision Making',
       'exp.edu2t': 'Diploma · Business Intelligence',
       'exp.edu3t': 'Bachelor of Science · Mechanical Engineering',
-      'exp.cta': 'Want to see the full CV?',
+      'exp.cta': 'Want to see the full CV or download the portfolio?',
       'exp.download': 'View / Print CV',
+      'exp.downloadPdf': 'Download CV (PDF)',
+      'exp.downloadPortfolio': 'Download Portfolio (PDF)',
 
       'awards.title': 'Awards & Recognition',
       'awards.a1': 'Team lead in charge of data strategy, management and storytelling. We built an analysis poster and a Machine Learning model on the effects of climate change on buildings in Hamilton.',
@@ -251,6 +259,26 @@
     const btn = document.getElementById('lang-toggle');
     btn.addEventListener('click', () => applyLang(currentLang === 'es' ? 'en' : 'es'));
     applyLang(currentLang);
+  }
+
+  function initThemeToggle() {
+    const root = document.documentElement;
+    const stored = localStorage.getItem('theme');
+    const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+    const initial = stored || (prefersLight ? 'light' : 'dark');
+    if (initial === 'light') root.setAttribute('data-theme', 'light');
+    const btn = document.getElementById('theme-toggle');
+    if (!btn) return;
+    btn.addEventListener('click', () => {
+      const isLight = root.getAttribute('data-theme') === 'light';
+      if (isLight) {
+        root.removeAttribute('data-theme');
+        localStorage.setItem('theme', 'dark');
+      } else {
+        root.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+      }
+    });
   }
 
   function initReveal() {
@@ -336,7 +364,7 @@
       }
       const body = encodeURIComponent(message + '\n\n— ' + name + '\n' + email);
       const subj = encodeURIComponent(subject);
-      window.location.href = 'mailto:edwin.santos@pucp.pe?subject=' + subj + '&body=' + body;
+      window.location.href = 'mailto:edwinrafaelsantosvidal@gmail.com?subject=' + subj + '&body=' + body;
       note.textContent = i18n[currentLang]['form.success'];
       note.className = 'form-note success';
       setTimeout(() => { form.reset(); note.textContent = ''; note.className = 'form-note'; }, 3500);
@@ -350,6 +378,7 @@
 
   function init() {
     initNav();
+    initThemeToggle();
     initLangToggle();
     initReveal();
     initCounters();

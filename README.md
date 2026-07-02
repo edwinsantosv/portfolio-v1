@@ -14,7 +14,8 @@ Personal portfolio, one-page Linktree landing and multi-format CVs for **Edwin S
 | `Edwin_Santos_CV.tex` / `.pdf` | Full 2-page CV (modern, colored). Good for tech/startup applications. | [PDF](https://edwinsantosv.github.io/portfolio-v2.github.io/Edwin_Santos_CV.pdf) |
 | `Edwin_Santos_CV_1page.tex` / `.pdf` | Compact 1-page CV (modern, colored). Good for consulting/EU roles. | [PDF](https://edwinsantosv.github.io/portfolio-v2.github.io/Edwin_Santos_CV_1page.pdf) |
 | `Edwin_Santos_CV_Harvard.tex` / `.pdf` | 1-page CV in Harvard OCS style (Times, no color). Good for MBA/MBB consulting/banking. | [PDF](https://edwinsantosv.github.io/portfolio-v2.github.io/Edwin_Santos_CV_Harvard.pdf) |
-| `styles.css` · `script.js` | Portfolio styling and interactivity (i18n ES/EN, reveal on scroll, contact form, counters). |
+| `Edwin_Santos_Portfolio.tex` / `.pdf` | 4-page portfolio brochure: cover, featured projects with visuals, current consulting work, past highlights, awards + contact CTA. | [PDF](https://edwinsantosv.github.io/portfolio-v2.github.io/Edwin_Santos_Portfolio.pdf) |
+| `styles.css` · `script.js` | Portfolio styling and interactivity (i18n ES/EN, dark/light theme toggle, reveal on scroll, contact form, counters). |
 | `project-dark.css` · `project-dark.js` | Shared styling for individual project case pages. |
 | `head_competition.html` · `spaceapps.html` · `DAX-query-automation.html` · `form-processing-ocr.html` · `data-analytics-assesing-risk.html` · `headcomp-dashboard.html` · `perform_joins_powerautomate.html` · `scholarship_website.html` | Individual project case studies linked from the portfolio. |
 | `assets/` · `forms/` | Static images / illustrations used across pages. |
@@ -32,7 +33,7 @@ Career track record includes two 1st-place team-lead awards (HEAD Competition 20
 
 ## Contact
 
-- **Email:** edwin.santos@pucp.pe
+- **Email:** edwinrafaelsantosvidal@gmail.com
 - **LinkedIn:** [linkedin.com/in/edwinsantosvidal](https://www.linkedin.com/in/edwinsantosvidal/)
 - **GitHub:** [github.com/edwinsantosv](https://github.com/edwinsantosv)
 - **WhatsApp:** +51 915 077 667
@@ -64,6 +65,7 @@ Requires a TeX distribution (TeX Live, MiKTeX, or Overleaf). Standard packages o
 pdflatex Edwin_Santos_CV.tex
 pdflatex Edwin_Santos_CV_1page.tex
 pdflatex Edwin_Santos_CV_Harvard.tex
+pdflatex Edwin_Santos_Portfolio.tex   # 4-page brochure with project screenshots
 ```
 
 Each `.tex` is self-contained and compiles in one pass. On Overleaf: upload the `.tex` file → set compiler to *pdfLaTeX* → *Recompile*.
