@@ -243,15 +243,14 @@
     window.addEventListener('scroll', onScroll, { passive: true });
     const menuBtn = document.getElementById('menu-toggle');
     const links = document.querySelector('.nav-links');
-    menuBtn.addEventListener('click', () => {
-      menuBtn.classList.toggle('open');
-      links.classList.toggle('open');
-    });
+    const setMenu = (open) => {
+      menuBtn.classList.toggle('open', open);
+      links.classList.toggle('open', open);
+      document.documentElement.classList.toggle('menu-open', open);
+    };
+    menuBtn.addEventListener('click', () => setMenu(!links.classList.contains('open')));
     links.querySelectorAll('a').forEach(a => {
-      a.addEventListener('click', () => {
-        menuBtn.classList.remove('open');
-        links.classList.remove('open');
-      });
+      a.addEventListener('click', () => setMenu(false));
     });
   }
 
