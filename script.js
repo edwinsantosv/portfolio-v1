@@ -248,6 +248,12 @@
     }
   };
 
+  // One-time reset to English default (bumps whenever we want to reset all visitors).
+  const LANG_RESET_KEY = 'lang-reset-en-v1';
+  if (!localStorage.getItem(LANG_RESET_KEY)) {
+    localStorage.removeItem('lang');
+    localStorage.setItem(LANG_RESET_KEY, '1');
+  }
   let currentLang = localStorage.getItem('lang') || 'en';
 
   function applyLang(lang) {
@@ -295,8 +301,8 @@
   function initThemeToggle() {
     const root = document.documentElement;
     const stored = localStorage.getItem('theme');
-    const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
-    const initial = stored || (prefersLight ? 'light' : 'dark');
+    // Default is always dark. Only switch to light when the user explicitly toggled before.
+    const initial = stored === 'light' ? 'light' : 'dark';
     if (initial === 'light') root.setAttribute('data-theme', 'light');
     const btn = document.getElementById('theme-toggle');
     if (!btn) return;
@@ -446,6 +452,63 @@
     if (y) y.textContent = new Date().getFullYear();
   }
 
+  // ---------- 3D tilt (mouse-driven perspective, pairs with scroll parallax) ----------
+  function initTilt() {
+    const isFinePointer = window.matchMedia && window.matchMedia('(pointer: fine)').matches;
+    const reduceMotion  = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!isFinePointer || reduceMotion) return;
+
+    // targets: [selector, maxDeg, glare]
+    const targets = [
+      { selector: '.hero-visual',     max: 8,  glare: true  },
+      { selector: '.project-card',    max: 10, glare: true  },
+      { selector: '.skill-card',      max: 6,  glare: false },
+      { selector: '.cert-card',       max: 8,  glare: false }
+    ];
+
+    targets.forEach(({ selector, max, glare }) => {
+      document.querySelectorAll(selector).forEach(el => attachTilt(el, max, glare));
+    });
+
+    function attachTilt(el, max, useGlare) {
+      el.style.transformStyle = 'preserve-3d';
+      el.style.willChange = 'transform';
+      let raf = null, tx = 0, ty = 0, cx = 0, cy = 0;
+      let glareEl = null;
+      if (useGlare) {
+        glareEl = document.createElement('div');
+        glareEl.className = 'tilt-glare';
+        el.appendChild(glareEl);
+        el.style.overflow = el.style.overflow || 'hidden';
+        el.style.position = getComputedStyle(el).position === 'static' ? 'relative' : el.style.position;
+      }
+      const onMove = (e) => {
+        const rect = el.getBoundingClientRect();
+        const px = (e.clientX - rect.left) / rect.width;   // 0..1
+        const py = (e.clientY - rect.top)  / rect.height;  // 0..1
+        tx = (py - 0.5) * -2 * max;   // rotateX
+        ty = (px - 0.5) *  2 * max;   // rotateY
+        cx = px * 100;
+        cy = py * 100;
+        if (!raf) raf = requestAnimationFrame(apply);
+      };
+      const onLeave = () => {
+        tx = 0; ty = 0;
+        if (!raf) raf = requestAnimationFrame(apply);
+      };
+      const apply = () => {
+        raf = null;
+        el.style.transform = `perspective(900px) rotateX(${tx.toFixed(2)}deg) rotateY(${ty.toFixed(2)}deg)`;
+        if (glareEl) {
+          glareEl.style.background =
+            `radial-gradient(circle at ${cx}% ${cy}%, rgba(255,255,255,0.14), rgba(255,255,255,0) 55%)`;
+        }
+      };
+      el.addEventListener('mousemove', onMove);
+      el.addEventListener('mouseleave', onLeave);
+    }
+  }
+
   function init() {
     initNav();
     initThemeToggle();
@@ -455,6 +518,7 @@
     initActiveLink();
     initForm();
     initYear();
+    initTilt();
   }
 
   if (document.readyState === 'loading') {
