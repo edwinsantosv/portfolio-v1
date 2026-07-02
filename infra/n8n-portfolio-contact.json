@@ -61,8 +61,28 @@
     },
     {
       "parameters": {
+        "url": "https://api.callmebot.com/whatsapp.php",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            { "name": "phone",  "value": "51915077667" },
+            { "name": "apikey", "value": "4138151" },
+            { "name": "text",   "value": "={{ `📬 Nuevo lead — Portfolio\\n\\n*${$('Validate & Sanitize').item.json.name}*\\n${$('Validate & Sanitize').item.json.email}\\n\\nSubject: ${$('Validate & Sanitize').item.json.subject}\\n\\n${$('Validate & Sanitize').item.json.message.slice(0,280)}\\n\\n→ Ver en Notion: ${$json.url}` }}" }
+          ]
+        },
+        "options": { "timeout": 10000 }
+      },
+      "id": "d6f3c4e8-1a11-4e3a-b3b1-1a3f1f3f0f05",
+      "name": "Notify via WhatsApp",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [260, 0],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
         "respondWith": "json",
-        "responseBody": "={{ { \"ok\": true, \"id\": $json.id } }}",
+        "responseBody": "={{ { \"ok\": true, \"id\": $('Create page in Notion').item.json.id } }}",
         "options": {
           "responseCode": 200,
           "responseHeaders": {
@@ -78,7 +98,7 @@
       "name": "Respond OK",
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1,
-      "position": [380, 0]
+      "position": [500, 0]
     }
   ],
   "connections": {
@@ -93,6 +113,11 @@
       ]
     },
     "Create page in Notion": {
+      "main": [
+        [ { "node": "Notify via WhatsApp", "type": "main", "index": 0 } ]
+      ]
+    },
+    "Notify via WhatsApp": {
       "main": [
         [ { "node": "Respond OK", "type": "main", "index": 0 } ]
       ]
