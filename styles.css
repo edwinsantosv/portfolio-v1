@@ -1089,13 +1089,34 @@ ul { list-style: none; padding: 0; margin: 0; }
   font-weight: 700;
 }
 .timeline-content h4 {
-  display: flex;
-  align-items: center;
-  gap: 10px;
   margin: 0 0 12px;
   font-size: 14px;
   font-weight: 500;
   color: var(--accent-2);
+}
+.timeline-content h4 .org-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: inherit;
+  text-decoration: none;
+  transition: color .2s var(--ease), opacity .2s var(--ease);
+}
+.timeline-content h4 .org-link:hover {
+  color: var(--accent);
+}
+.timeline-content h4 .org-link::after {
+  content: "↗";
+  display: inline-block;
+  margin-left: 2px;
+  font-size: 12px;
+  opacity: 0;
+  transform: translate(-4px, 2px);
+  transition: opacity .25s var(--ease), transform .25s var(--ease);
+}
+.timeline-content h4 .org-link:hover::after {
+  opacity: 0.7;
+  transform: translate(0, 0);
 }
 
 /* Organization badge — 32px circle. Holds either a real logo image or a
