@@ -1,0 +1,109 @@
+{
+  "name": "Portfolio Contact Form → Notion",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "portfolio-contact",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "https://edwinsantosv.github.io"
+        }
+      },
+      "id": "d6f3c4e8-1a11-4e3a-b3b1-1a3f1f3f0f01",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [-320, 0],
+      "webhookId": "portfolio-contact-webhook"
+    },
+    {
+      "parameters": {
+        "jsCode": "const body = $json.body || $json;\nconst name    = (body.name    || '').toString().trim();\nconst email   = (body.email   || '').toString().trim();\nconst subject = (body.subject || '').toString().trim();\nconst message = (body.message || '').toString().trim();\nconst source  = (body.source  || 'Portfolio').toString().trim();\n\nconst errors = [];\nif (!name)                                      errors.push('name');\nif (!email || !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)) errors.push('email');\nif (!subject)                                   errors.push('subject');\nif (!message || message.length < 5)             errors.push('message');\n\nif (errors.length) {\n  throw new Error('Invalid fields: ' + errors.join(', '));\n}\n\n// Truncate to keep Notion rich_text under 2000 chars per block.\nconst clip = (s, n) => (s.length > n ? s.slice(0, n - 1) + '…' : s);\n\nreturn [{ json: {\n  name:    clip(name,    120),\n  email:   clip(email,   200),\n  subject: clip(subject, 200),\n  message: clip(message, 1800),\n  source:  ['Portfolio','Linktree','Other'].includes(source) ? source : 'Other'\n}}];"
+      },
+      "id": "d6f3c4e8-1a11-4e3a-b3b1-1a3f1f3f0f02",
+      "name": "Validate & Sanitize",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [-100, 0]
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "create",
+        "databaseId": {
+          "__rl": true,
+          "value": "def93263-e29a-4e3d-9e24-049805e0b602",
+          "mode": "id"
+        },
+        "title": "={{ $json.name }}",
+        "propertiesUi": {
+          "propertyValues": [
+            { "key": "Email|email",        "emailValue":     "={{ $json.email }}"   },
+            { "key": "Subject|rich_text",  "textContent":    "={{ $json.subject }}" },
+            { "key": "Message|rich_text",  "textContent":    "={{ $json.message }}" },
+            { "key": "Status|select",      "selectValue":    "New"                   },
+            { "key": "Source|select",      "selectValue":    "={{ $json.source }}"  }
+          ]
+        }
+      },
+      "id": "d6f3c4e8-1a11-4e3a-b3b1-1a3f1f3f0f03",
+      "name": "Create page in Notion",
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2,
+      "position": [140, 0],
+      "credentials": {
+        "notionApi": {
+          "id": "REPLACE_ME",
+          "name": "Notion Portfolio"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { \"ok\": true, \"id\": $json.id } }}",
+        "options": {
+          "responseCode": 200,
+          "responseHeaders": {
+            "entries": [
+              { "name": "Access-Control-Allow-Origin",  "value": "https://edwinsantosv.github.io" },
+              { "name": "Access-Control-Allow-Methods", "value": "POST, OPTIONS" },
+              { "name": "Access-Control-Allow-Headers", "value": "Content-Type" }
+            ]
+          }
+        }
+      },
+      "id": "d6f3c4e8-1a11-4e3a-b3b1-1a3f1f3f0f04",
+      "name": "Respond OK",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [380, 0]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [ { "node": "Validate & Sanitize", "type": "main", "index": 0 } ]
+      ]
+    },
+    "Validate & Sanitize": {
+      "main": [
+        [ { "node": "Create page in Notion", "type": "main", "index": 0 } ]
+      ]
+    },
+    "Create page in Notion": {
+      "main": [
+        [ { "node": "Respond OK", "type": "main", "index": 0 } ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "saveExecutionProgress": true,
+    "saveManualExecutions": true,
+    "saveDataErrorExecution": "all",
+    "saveDataSuccessExecution": "all"
+  },
+  "pinData": {}
+}
