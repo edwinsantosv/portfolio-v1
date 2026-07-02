@@ -1403,13 +1403,13 @@ ul { list-style: none; padding: 0; margin: 0; }
 /* Certifications block */
 .certs-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 16px;
   margin-top: 40px;
 }
 .cert-card {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 14px;
   padding: 18px;
   background: var(--surface);
@@ -1428,13 +1428,31 @@ ul { list-style: none; padding: 0; margin: 0; }
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
   background: linear-gradient(135deg, rgba(99,102,241,.20), rgba(236,72,153,.15));
   color: var(--accent);
 }
 .cert-badge svg { width: 22px; height: 22px; }
+.cert-badge img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 5px;
+  filter: grayscale(0.5) brightness(1.05);
+  transition: filter .3s var(--ease);
+}
+.cert-badge--light { background: #fff; }
+.cert-card:hover .cert-badge img { filter: grayscale(0) brightness(1); }
 .cert-info { min-width: 0; }
-.cert-info h4 { font-size: 14px; font-weight: 600; margin: 0 0 4px; color: var(--text); }
-.cert-info p  { font-size: 12px; color: var(--text-muted); margin: 0 0 4px; line-height: 1.5; }
+.cert-info h4 { font-size: 14px; font-weight: 600; margin: 0 0 2px; color: var(--text); line-height: 1.35; }
+.cert-info .cert-issuer {
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--accent-2);
+  margin: 0 0 6px;
+  letter-spacing: 0.3px;
+}
+.cert-info p  { font-size: 12px; color: var(--text-muted); margin: 0 0 6px; line-height: 1.5; }
 .cert-link-hint {
   display: inline-block;
   color: var(--accent);
