@@ -1089,10 +1089,41 @@ ul { list-style: none; padding: 0; margin: 0; }
   font-weight: 700;
 }
 .timeline-content h4 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   margin: 0 0 12px;
   font-size: 14px;
   font-weight: 500;
   color: var(--accent-2);
+}
+
+/* Organization monogram — small gradient circle with initials,
+   matches the .logo-mark aesthetic used in the hero. */
+.org-logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.18), rgba(236, 72, 153, 0.18));
+  border: 1px solid var(--border-strong);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--text);
+  text-transform: uppercase;
+  box-shadow: 0 0 12px rgba(99, 102, 241, 0.08);
+  transition: transform .3s var(--ease), border-color .3s var(--ease), box-shadow .3s var(--ease);
+}
+.org-logo.mono-4 { font-size: 8px; letter-spacing: 0.3px; }
+.timeline-item:hover .org-logo {
+  transform: scale(1.05);
+  border-color: var(--accent);
+  box-shadow: 0 0 16px rgba(99, 102, 241, 0.25);
 }
 .timeline-content p {
   margin: 0 0 14px;
