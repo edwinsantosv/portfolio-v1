@@ -16,6 +16,7 @@ Personal portfolio, one-page Linktree landing and multi-format CVs for **Edwin S
 | `Edwin_Santos_CV_Harvard.tex` / `.pdf` | 1-page CV in Harvard OCS style (Times, no color). Good for MBA/MBB consulting/banking. | [PDF](https://edwinsantosv.github.io/portfolio-v2.github.io/Edwin_Santos_CV_Harvard.pdf) |
 | `Edwin_Santos_Portfolio.tex` / `.pdf` | 4-page portfolio brochure: cover, featured projects with visuals, current consulting work, past highlights, awards + contact CTA. | [PDF](https://edwinsantosv.github.io/portfolio-v2.github.io/Edwin_Santos_Portfolio.pdf) |
 | `styles.css` · `script.js` | Portfolio styling and interactivity (i18n ES/EN, dark/light theme toggle, reveal on scroll, contact form, counters). |
+| `analytics.js` | Google Analytics 4 loader — shared across every HTML page. Inert until a real `G-XXXXXXXXXX` Measurement ID is set. See [Analytics](#analytics) section for setup. |
 | `project-dark.css` · `project-dark.js` | Shared styling for individual project case pages. |
 | `head_competition.html` · `spaceapps.html` · `DAX-query-automation.html` · `form-processing-ocr.html` · `data-analytics-assesing-risk.html` · `headcomp-dashboard.html` · `perform_joins_powerautomate.html` · `scholarship_website.html` | Individual project case studies linked from the portfolio. |
 | `assets/` · `forms/` | Static images / illustrations used across pages. |
@@ -80,6 +81,30 @@ Two additional mirrors exist for legacy reasons:
 - [`edwinsantosv/portfolio-main.github.io`](https://github.com/edwinsantosv/portfolio-main.github.io) → serves `main`
 
 The primary live is **`portfolio-v2.github.io`**. The others are kept in sync only when the copy is worth backporting.
+
+## Analytics
+
+Google Analytics 4 is wired up via a shared loader at `analytics.js`, included from every HTML page. It stays inert until a real Measurement ID is configured, so no traffic is sent while the placeholder is in place.
+
+**One-time setup:**
+
+1. Go to [analytics.google.com](https://analytics.google.com) → **Admin** → **Create property** (name: *Edwin Santos Portfolio*, timezone: America/Lima, currency: USD).
+2. Inside the property → **Data Streams** → **Add stream** → **Web** → URL: `https://edwinsantosv.github.io/portfolio-v2.github.io/` → stream name: *Portfolio v2*.
+3. Copy the **Measurement ID** (format `G-XXXXXXXXXX`).
+4. Open `analytics.js` and replace the placeholder on the first non-comment line:
+
+   ```js
+   var GA_MEASUREMENT_ID = "G-XXXXXXXXXX"; // ← paste your ID here
+   ```
+
+5. Commit and push to `published`. GitHub Pages rebuilds in ~1 minute.
+6. Verify in GA4 → **Reports → Realtime** while browsing the live site from another device or incognito window.
+
+**Behavior notes:**
+
+- Localhost and `127.0.0.1` are excluded automatically, so local dev sessions don't inflate stats.
+- `anonymize_ip` is enabled by default for GDPR-friendly tracking.
+- No cookie banner is bundled — add one if you plan to promote the site heavily in the EU.
 
 ## Tech stack
 
