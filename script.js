@@ -8,7 +8,7 @@
   const i18n = {
     es: {
       'nav.about': 'Sobre mí', 'nav.skills': 'Skills', 'nav.projects': 'Proyectos',
-      'nav.experience': 'Experiencia', 'nav.awards': 'Premios', 'nav.contact': 'Contacto',
+      'nav.experience': 'Experiencia', 'nav.education': 'Educación', 'nav.awards': 'Premios', 'nav.contact': 'Contacto',
 
       'hero.badge': 'Business Analyst @ CQ Fluency · Consultor de Automatización @ Wings4U · Abierto a roles de liderazgo',
       'hero.hi': 'Hola, soy',
@@ -92,6 +92,12 @@
       'exp.downloadPdf': 'Descargar CV (PDF)',
       'exp.downloadPortfolio': 'Descargar Portafolio (PDF)',
 
+      'edu.title': 'Educación',
+      'edu.rank': '#1 LATAM',
+      'edu.honors': 'Honores 94.2%',
+      'edu.diploma': 'Diplomado',
+      'edu.bachelor': 'Bachiller',
+
       'awards.title': 'Premios & Reconocimientos',
       'awards.a1': 'Líder de equipo a cargo de la estrategia de datos, gestión y storytelling. Construimos un poster de análisis y un modelo de Machine Learning sobre los efectos del cambio climático en edificios de Hamilton.',
       'awards.a2': 'Líder del equipo entre 1600 participantes y 200 equipos. A cargo de la ingeniería de los sistemas mecánicos del módulo y de la transferencia y visualización de datos en Grafana en tiempo real (humedad, moho, presión de aire).',
@@ -112,7 +118,7 @@
     },
     en: {
       'nav.about': 'About', 'nav.skills': 'Skills', 'nav.projects': 'Projects',
-      'nav.experience': 'Experience', 'nav.awards': 'Awards', 'nav.contact': 'Contact',
+      'nav.experience': 'Experience', 'nav.education': 'Education', 'nav.awards': 'Awards', 'nav.contact': 'Contact',
 
       'hero.badge': 'Business Analyst @ CQ Fluency · Automation Consultant @ Wings4U · Open to leadership roles',
       'hero.hi': "Hi, I'm",
@@ -195,6 +201,12 @@
       'exp.download': 'View / Print CV',
       'exp.downloadPdf': 'Download CV (PDF)',
       'exp.downloadPortfolio': 'Download Portfolio (PDF)',
+
+      'edu.title': 'Education',
+      'edu.rank': '#1 LATAM',
+      'edu.honors': 'Honors 94.2%',
+      'edu.diploma': 'Diploma',
+      'edu.bachelor': "Bachelor's degree",
 
       'awards.title': 'Awards & Recognition',
       'awards.a1': 'Team lead in charge of data strategy, management and storytelling. We built an analysis poster and a Machine Learning model on the effects of climate change on buildings in Hamilton.',
