@@ -117,8 +117,11 @@
       'form.subject': 'Asunto',
       'form.message': 'Mensaje',
       'form.send': 'Enviar mensaje',
-      'form.success': '¡Listo! Tu cliente de email se abrirá ahora.',
+      'form.sending': 'Enviando…',
+      'form.success': '¡Mensaje enviado! Te responderé pronto.',
       'form.error': 'Por favor, completa todos los campos.',
+      'form.error.email': 'Ingresa un email válido.',
+      'form.error.network': 'No pudimos enviar tu mensaje. Escríbeme a edwinrafaelsantosvidal@gmail.com',
 
       'footer.tag': 'Datos en decisiones, decisiones en resultados.',
       'footer.rights': 'Todos los derechos reservados'
@@ -234,8 +237,11 @@
       'form.subject': 'Subject',
       'form.message': 'Message',
       'form.send': 'Send message',
-      'form.success': 'Done! Your email client will open now.',
+      'form.sending': 'Sending…',
+      'form.success': 'Message sent! I will get back to you soon.',
       'form.error': 'Please fill in all fields.',
+      'form.error.email': 'Please enter a valid email.',
+      'form.error.network': "Couldn't send your message. Email me at edwinrafaelsantosvidal@gmail.com",
 
       'footer.tag': 'Data into decisions, decisions into results.',
       'footer.rights': 'All rights reserved'
@@ -376,23 +382,56 @@
     const form = document.getElementById('contact-form');
     const note = document.getElementById('form-note');
     if (!form) return;
-    form.addEventListener('submit', (e) => {
+
+    const WEBHOOK_URL = 'https://edwinsantos.app.n8n.cloud/webhook/portfolio-contact';
+    const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    const submitBtn  = form.querySelector('button[type="submit"]');
+    const submitSpan = submitBtn ? submitBtn.querySelector('[data-i18n="form.send"]') : null;
+    const originalLabel = submitSpan ? submitSpan.textContent : '';
+
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const name    = form.name.value.trim();
       const email   = form.email.value.trim();
       const subject = form.subject.value.trim();
       const message = form.message.value.trim();
+
       if (!name || !email || !subject || !message) {
         note.textContent = i18n[currentLang]['form.error'];
         note.className = 'form-note error';
         return;
       }
-      const body = encodeURIComponent(message + '\n\n— ' + name + '\n' + email);
-      const subj = encodeURIComponent(subject);
-      window.location.href = 'mailto:edwinrafaelsantosvidal@gmail.com?subject=' + subj + '&body=' + body;
-      note.textContent = i18n[currentLang]['form.success'];
-      note.className = 'form-note success';
-      setTimeout(() => { form.reset(); note.textContent = ''; note.className = 'form-note'; }, 3500);
+      if (!EMAIL_RE.test(email)) {
+        note.textContent = i18n[currentLang]['form.error.email'];
+        note.className = 'form-note error';
+        return;
+      }
+
+      submitBtn.disabled = true;
+      if (submitSpan) submitSpan.textContent = i18n[currentLang]['form.sending'];
+      note.textContent = '';
+      note.className = 'form-note';
+
+      try {
+        const res = await fetch(WEBHOOK_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, subject, message, source: 'Portfolio' })
+        });
+        if (!res.ok) throw new Error('http_' + res.status);
+
+        note.textContent = i18n[currentLang]['form.success'];
+        note.className = 'form-note success';
+        form.reset();
+        setTimeout(() => { note.textContent = ''; note.className = 'form-note'; }, 4500);
+      } catch (err) {
+        note.textContent = i18n[currentLang]['form.error.network'];
+        note.className = 'form-note error';
+      } finally {
+        submitBtn.disabled = false;
+        if (submitSpan) submitSpan.textContent = originalLabel;
+      }
     });
   }
 
