@@ -424,10 +424,16 @@
         note.textContent = i18n[currentLang]['form.success'];
         note.className = 'form-note success';
         form.reset();
+        if (typeof window.gtag === 'function') {
+          window.gtag('event', 'form_submit', { form_id: 'contact-form', source: 'Portfolio' });
+        }
         setTimeout(() => { note.textContent = ''; note.className = 'form-note'; }, 4500);
       } catch (err) {
         note.textContent = i18n[currentLang]['form.error.network'];
         note.className = 'form-note error';
+        if (typeof window.gtag === 'function') {
+          window.gtag('event', 'form_error', { form_id: 'contact-form' });
+        }
       } finally {
         submitBtn.disabled = false;
         if (submitSpan) submitSpan.textContent = originalLabel;
