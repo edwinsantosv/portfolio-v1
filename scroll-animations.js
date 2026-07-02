@@ -117,20 +117,21 @@
     }
 
     /* -----------------------------------------------------
-       Section headers — number, title, line reveal in sequence
+       Section headers — number, title, line reveal in sequence.
+       `immediateRender: false` on every child .from() so nothing stays
+       invisible if the ScrollTrigger misfires (mobile Safari quirk).
        ----------------------------------------------------- */
     document.querySelectorAll('.section-head').forEach((head) => {
       const num   = head.querySelector('.section-num');
       const title = head.querySelector('.section-title');
       const line  = head.querySelector('.section-line');
       const tl = gsap.timeline({
-        defaults: { ease: 'expo.out', duration: 0.9 },
+        defaults: { ease: 'expo.out', duration: 0.9, immediateRender: false },
         scrollTrigger: stCfg(head),
-        immediateRender: false,
       });
-      if (num)   tl.from(num,   { y: 24, opacity: 0 }, 0);
-      if (title) tl.from(title, { y: 30, opacity: 0 }, 0.1);
-      if (line)  tl.from(line,  { scaleX: 0, transformOrigin: 'left center', duration: 1.1 }, 0.2);
+      if (num)   tl.from(num,   { y: 24, opacity: 0, immediateRender: false }, 0);
+      if (title) tl.from(title, { y: 30, opacity: 0, immediateRender: false }, 0.1);
+      if (line)  tl.from(line,  { scaleX: 0, transformOrigin: 'left center', duration: 1.1, immediateRender: false }, 0.2);
     });
 
     /* -----------------------------------------------------
@@ -139,29 +140,33 @@
     gsap.utils.toArray('.about-highlights .highlight').forEach((el) => {
       const icon = el.querySelector('.highlight-icon');
       const txt  = el.querySelectorAll('h4, p');
-      const tl = gsap.timeline({ scrollTrigger: stCfg(el), immediateRender: false });
-      tl.from(el, { x: -24 * intensity, opacity: 0, duration: 0.6, ease: 'expo.out' });
-      if (icon) tl.from(icon, { scale: 0.5, rotation: -30, opacity: 0, duration: 0.6, ease: 'back.out(1.8)' }, '-=0.45');
-      if (txt.length) tl.from(txt, { y: 10, opacity: 0, stagger: 0.08, duration: 0.4 }, '-=0.35');
+      const tl = gsap.timeline({
+        defaults: { immediateRender: false },
+        scrollTrigger: stCfg(el),
+      });
+      tl.from(el, { x: -24 * intensity, opacity: 0, duration: 0.6, ease: 'expo.out', immediateRender: false });
+      if (icon) tl.from(icon, { scale: 0.5, rotation: -30, opacity: 0, duration: 0.6, ease: 'back.out(1.8)', immediateRender: false }, '-=0.45');
+      if (txt.length) tl.from(txt, { y: 10, opacity: 0, stagger: 0.08, duration: 0.4, immediateRender: false }, '-=0.35');
     });
 
     /* -----------------------------------------------------
-       Skills cards — 3D perspective on desktop, simple lift on mobile
+       Skills cards — animate the CARD only (3D perspective on desktop,
+       simple lift on mobile). The children (icon pop, tag stagger) are
+       handled by the existing CSS `.skill-card.reveal.in ...` rules,
+       which are much more reliable across devices. Trying to also
+       control them via GSAP left them stuck at opacity 0 on mobile
+       when child tweens applied their `from` state before ScrollTrigger
+       fired (immediateRender doesn't propagate from timeline to child).
        ----------------------------------------------------- */
     gsap.utils.toArray('.skill-card').forEach((card) => {
-      const icon = card.querySelector('.skill-icon');
-      const tags = card.querySelectorAll('.skill-tags li');
-      const head = card.querySelector('.skill-head h3');
-      const tl = gsap.timeline({ scrollTrigger: stCfg(card), immediateRender: false });
-
       const cardFrom = isMobile
         ? { y: 40, opacity: 0, duration: 0.7, ease: 'expo.out' }
         : { y: 50, opacity: 0, rotationX: 18, transformPerspective: 900, transformOrigin: 'bottom center', duration: 0.85, ease: 'expo.out' };
-      tl.from(card, cardFrom);
-
-      if (icon) tl.from(icon, { scale: 0.5, rotation: -60, opacity: 0, duration: 0.5, ease: 'back.out(1.8)' }, '-=0.5');
-      if (head) tl.from(head, { y: 8, opacity: 0, duration: 0.4 }, '-=0.4');
-      if (tags.length) tl.from(tags, { y: 8, opacity: 0, stagger: 0.04, duration: 0.35 }, '-=0.3');
+      gsap.from(card, {
+        ...cardFrom,
+        immediateRender: false,
+        scrollTrigger: stCfg(card),
+      });
     });
 
     /* -----------------------------------------------------
@@ -208,10 +213,13 @@
         const dot = item.querySelector('.timeline-dot');
         const content = item.querySelector('.timeline-content');
         const fromLeft = i % 2 === 0;
-        const tl = gsap.timeline({ scrollTrigger: stCfg(item), immediateRender: false });
-        if (dot) tl.from(dot, { scale: 0, opacity: 0, duration: 0.45, ease: 'back.out(2)' });
+        const tl = gsap.timeline({
+          defaults: { immediateRender: false },
+          scrollTrigger: stCfg(item),
+        });
+        if (dot) tl.from(dot, { scale: 0, opacity: 0, duration: 0.45, ease: 'back.out(2)', immediateRender: false });
         if (content) tl.from(content, {
-          x: (fromLeft ? -30 : 30) * intensity, opacity: 0, duration: 0.7, ease: 'expo.out',
+          x: (fromLeft ? -30 : 30) * intensity, opacity: 0, duration: 0.7, ease: 'expo.out', immediateRender: false,
         }, '-=0.3');
       });
     }
@@ -251,15 +259,26 @@
     window.addEventListener('load', refresh);
 
     /* -----------------------------------------------------
-       SAFETY NET — after 2.5s, force-show any `.reveal` element
-       still stuck at opacity 0 (e.g. trigger never fired on a
-       flaky mobile browser). Belt-and-suspenders for peace of mind.
+       SAFETY NET — after 2.5s, force-show any content element still
+       stuck at opacity 0 (trigger never fired, mobile viewport quirk,
+       etc). Belt-and-suspenders. Checks reveal items AND common child
+       targets (skill tags, headings, timeline content, contact items).
        ----------------------------------------------------- */
     setTimeout(() => {
-      revealItems.forEach(el => {
+      const suspects = document.querySelectorAll([
+        '.reveal',
+        '.skill-tags li', '.skill-head h3', '.skill-icon',
+        '.highlight-icon', '.highlight h4', '.highlight p',
+        '.timeline-dot', '.timeline-content',
+        '.section-num', '.section-title', '.section-line',
+        '.contact-card', '.contact-form', '.contact-info',
+        '.contact-actions a', '.contact-item',
+        '.cert-card', '.award-card', '.project-card',
+      ].join(','));
+      suspects.forEach(el => {
         const cs = window.getComputedStyle(el);
         if (parseFloat(cs.opacity) < 0.05) {
-          gsap.set(el, { clearProps: 'all' });
+          gsap.set(el, { clearProps: 'all', opacity: 1, x: 0, y: 0, scale: 1, rotation: 0, rotationX: 0 });
         }
       });
     }, 2500);
