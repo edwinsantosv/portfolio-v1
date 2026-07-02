@@ -160,12 +160,18 @@ ul { list-style: none; padding: 0; margin: 0; }
   position: sticky;
   top: 0;
   z-index: 80;
-  isolation: isolate;
-  backdrop-filter: blur(16px) saturate(160%);
-  -webkit-backdrop-filter: blur(16px) saturate(160%);
   background: var(--nav-bg);
   border-bottom: 1px solid transparent;
   transition: border-color .3s var(--ease), background .3s var(--ease);
+}
+/* Blur backdrop only on desktop — on mobile it creates a containing block
+   trap that clips 'position: fixed' descendants (i.e. the .nav-links drawer)
+   to the nav bar's own bounds. */
+@media (min-width: 881px) {
+  .nav-wrapper {
+    backdrop-filter: blur(16px) saturate(160%);
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+  }
 }
 .nav-wrapper.scrolled {
   border-bottom-color: var(--border);
