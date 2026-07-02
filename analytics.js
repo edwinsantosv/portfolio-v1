@@ -11,7 +11,7 @@
  * Localhost and 127.0.0.1 are also excluded from tracking so dev sessions don't inflate stats.
  */
 (function () {
-  var GA_MEASUREMENT_ID = "G-7RZJM7CJXM"; // <-- replace with your GA4 Measurement ID
+  var GA_MEASUREMENT_ID = "G-V2CNC24LTD"; // <-- replace with your GA4 Measurement ID
 
   if (!GA_MEASUREMENT_ID || GA_MEASUREMENT_ID === "G-XXXXXXXXXX") return;
 
