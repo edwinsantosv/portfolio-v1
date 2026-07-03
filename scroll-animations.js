@@ -145,21 +145,17 @@
         dots.forEach((d, i) => d.classList.toggle('is-active', i === idx));
       }
 
-      // Pin the section so the cube stays in view while it rotates through the
-      // 4 faces. Mobile gets a shorter pin (+=110%) so the "accompanied" feel is
-      // tight — desktop gets more (+=180%) since screens are wider and there's
-      // more room to breathe.
+      // No pin — the section scrolls naturally, and the cube rotates while it
+      // is visible in the viewport. Feels like the cube "accompanies" you as
+      // you scroll past, without ever blocking the scroll gesture.
       gsap.to(cube, {
         rotationY: -270,
         ease: 'none',
         scrollTrigger: {
           trigger: section,
-          start: 'top top',
-          end: isMobile ? '+=110%' : '+=180%',
+          start: 'top bottom',     // rotation begins as section enters viewport
+          end:   'bottom top',     // rotation ends as section leaves viewport
           scrub: 0.6,
-          pin: true,
-          pinSpacing: true,
-          anticipatePin: 1,
           onUpdate: (self) => {
             const idx = Math.min(3, Math.floor(self.progress * 4));
             setActiveFace(idx);

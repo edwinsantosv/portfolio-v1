@@ -1618,13 +1618,14 @@ html.gsap-ready .reveal {
    ============================================================ */
 .cube-section {
   position: relative;
+  height: 100vh;
+  height: 100svh;
   padding: 0;
-  /* GSAP handles the scroll pinning — no extra height needed here. */
+  overflow: hidden;
 }
 .cube-scene {
   position: relative;
-  height: 100vh;
-  height: 100svh;
+  height: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
@@ -1632,7 +1633,6 @@ html.gsap-ready .reveal {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 max(24px, 5vw);
-  overflow: hidden;
 }
 .cube-stage {
   position: relative;
