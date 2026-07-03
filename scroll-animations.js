@@ -145,27 +145,33 @@
         dots.forEach((d, i) => d.classList.toggle('is-active', i === idx));
       }
 
-      // Rotate cube 270° while the section is pinned. GSAP creates a pin-spacer
-      // that reserves exactly the scroll distance we ask for (+=180%) — so there's
-      // never a dead zone of empty scroll after the rotation completes.
-      const scrollLen = isMobile ? '+=140%' : '+=180%';
-      gsap.to(cube, {
-        rotationY: -270,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: section,
-          start: 'top top',
-          end: scrollLen,
-          scrub: 0.6,
-          pin: true,
-          pinSpacing: true,
-          anticipatePin: 1,
-          onUpdate: (self) => {
-            const idx = Math.min(3, Math.floor(self.progress * 4));
-            setActiveFace(idx);
+      // Rotate cube 270° in sync with the scroll.
+      // Desktop: pin the section so the cube stays in view while it rotates.
+      // Mobile: no pin — the section scrolls naturally and the cube rotates
+      // as it enters/exits the viewport (feels much more native on touch).
+      const stConfig = isMobile
+        ? {
+            trigger: section,
+            start: 'top bottom',   // rotation begins as section enters viewport
+            end:   'bottom top',   // rotation ends as section leaves viewport
+            scrub: 0.6,
+            pin: false
           }
-        }
-      });
+        : {
+            trigger: section,
+            start: 'top top',
+            end:   '+=180%',
+            scrub: 0.6,
+            pin: true,
+            pinSpacing: true,
+            anticipatePin: 1
+          };
+      stConfig.onUpdate = (self) => {
+        const idx = Math.min(3, Math.floor(self.progress * 4));
+        setActiveFace(idx);
+      };
+
+      gsap.to(cube, { rotationY: -270, ease: 'none', scrollTrigger: stConfig });
     })();
 
     /* -----------------------------------------------------
