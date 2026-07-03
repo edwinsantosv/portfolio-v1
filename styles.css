@@ -1618,13 +1618,15 @@ html.gsap-ready .reveal {
    ============================================================ */
 .cube-section {
   position: relative;
-  height: 340vh;             /* scroll room: ~3 full rotations across viewport */
+  height: 340vh;
+  height: 340svh;            /* small viewport height — stable on iOS Safari */
   padding: 0;
 }
 .cube-scene {
   position: sticky;
   top: 0;
   height: 100vh;
+  height: 100svh;
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
@@ -1817,12 +1819,14 @@ html.gsap-ready .reveal {
 [data-theme="light"] .cube-dot { background: rgba(0,0,0,.1); }
 
 @media (max-width: 900px) {
-  .cube-section { height: 260vh; }
+  .cube-section { height: 240vh; height: 240svh; }
   .cube-scene {
     grid-template-columns: 1fr;
     grid-template-rows: auto auto;
-    gap: 2rem;
-    padding-top: 8vh;
+    gap: 1.75rem;
+    padding-top: 6vh;
+    padding-bottom: 4vh;
+    align-content: center;
   }
   .cube-stage {
     width: 220px;

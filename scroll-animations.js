@@ -147,6 +147,7 @@
 
       // Rotate cube 270° over the scroll of the section, land on each face
       // (0°, -90°, -180°, -270°). Face index derived from rotation angle.
+      // Runs on mobile too — the CSS sticky handles the pin, no GSAP pin needed.
       gsap.to(cube, {
         rotationY: -270,
         ease: 'none',
@@ -157,18 +158,11 @@
           scrub: 0.6,
           pin: false,
           onUpdate: (self) => {
-            // progress 0..1 → face index 0..3
             const idx = Math.min(3, Math.floor(self.progress * 4));
             setActiveFace(idx);
           }
         }
       });
-
-      // Skip complex 3D on mobile phones — the sticky/pin can jitter in Safari
-      if (isMobile) {
-        gsap.killTweensOf(cube);
-        cube.style.transform = 'rotateX(-14deg) rotateY(-45deg)';
-      }
     })();
 
     /* -----------------------------------------------------
