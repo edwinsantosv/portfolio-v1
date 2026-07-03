@@ -1614,6 +1614,240 @@ html.gsap-ready .reveal {
 }
 
 /* ============================================================
+   Data cube — pinned 3D scroll scene between About and Skills
+   ============================================================ */
+.cube-section {
+  position: relative;
+  height: 340vh;             /* scroll room: ~3 full rotations across viewport */
+  padding: 0;
+}
+.cube-scene {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 3rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 max(24px, 5vw);
+  overflow: hidden;
+}
+.cube-stage {
+  position: relative;
+  width: 320px;
+  height: 320px;
+  margin-left: auto;
+  perspective: 1600px;
+  transform-style: preserve-3d;
+}
+.cube {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transform: rotateX(-14deg) rotateY(0deg);
+  will-change: transform;
+}
+.cube-face {
+  position: absolute;
+  inset: 0;
+  border-radius: 22px;
+  border: 1px solid rgba(139, 141, 179, .18);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,0)) padding-box,
+    linear-gradient(135deg, rgba(99, 102, 241, .28), rgba(236, 72, 153, .18)) border-box;
+  background-color: #0d1024;
+  box-shadow:
+    0 24px 60px rgba(2, 4, 20, .55),
+    inset 0 1px 0 rgba(255,255,255,.05);
+  padding: 20px 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+  backface-visibility: hidden;
+  color: #e6e8f2;
+}
+.cube-face--front  { transform: translateZ(160px); }
+.cube-face--right  { transform: rotateY( 90deg) translateZ(160px); }
+.cube-face--back   { transform: rotateY(180deg) translateZ(160px); }
+.cube-face--left   { transform: rotateY(-90deg) translateZ(160px); }
+.cube-face--top    { transform: rotateX( 90deg) translateZ(160px); }
+.cube-face--bottom { transform: rotateX(-90deg) translateZ(160px); }
+.cube-face-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: var(--accent, #a78bfa);
+  text-transform: uppercase;
+}
+.cube-face-foot {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: .06em;
+  color: #8b8dbf;
+}
+.cube-face-body {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+}
+.cube-face-body pre {
+  margin: 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11.5px;
+  line-height: 1.55;
+  color: #cfd2ee;
+  text-align: left;
+  white-space: pre;
+}
+.cube-face-body pre .c-keyword { color: #f472b6; }
+.cube-face-body pre .c-fn      { color: #60a5fa; }
+.cube-face-body--chart {
+  gap: 10px;
+  align-items: flex-end;
+  padding: 10px 0 6px;
+}
+.cube-face-body--chart .chart-bar {
+  flex: 1;
+  height: var(--h, 50%);
+  background: linear-gradient(180deg, #a78bfa, #ec4899);
+  border-radius: 4px 4px 0 0;
+  box-shadow: 0 0 12px rgba(167, 139, 250, .35);
+}
+.cube-face-body--kpi {
+  flex-direction: column;
+  gap: 6px;
+}
+.cube-face-body--kpi .kpi-num {
+  font-size: 56px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #a78bfa, #ec4899);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  line-height: 1;
+}
+.cube-face-body--kpi .kpi-label {
+  font-size: 12px;
+  color: #b8bad8;
+  text-align: center;
+  line-height: 1.3;
+}
+.cube-face-body--flow {
+  gap: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  flex-wrap: wrap;
+}
+.cube-face-body--flow .flow-node {
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: rgba(167, 139, 250, .14);
+  border: 1px solid rgba(167, 139, 250, .28);
+  color: #dcdaff;
+}
+.cube-face-body--flow .flow-arrow {
+  color: #a78bfa;
+  font-size: 14px;
+}
+.cube-copy {
+  max-width: 380px;
+}
+.cube-eyebrow {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--accent, #a78bfa);
+  padding: 6px 12px;
+  border: 1px solid rgba(167, 139, 250, .3);
+  border-radius: 999px;
+  margin-bottom: 20px;
+}
+.cube-title {
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 700;
+  margin: 0 0 12px;
+  background: linear-gradient(135deg, #ffffff 0%, #a78bfa 60%, #ec4899 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  line-height: 1.1;
+  transition: opacity 300ms ease, transform 300ms ease;
+}
+.cube-desc {
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--text-muted, #b8bad8);
+  margin: 0 0 24px;
+  transition: opacity 300ms ease, transform 300ms ease;
+}
+.cube-dots {
+  display: flex;
+  gap: 10px;
+}
+.cube-dot {
+  width: 28px;
+  height: 4px;
+  border-radius: 4px;
+  background: rgba(255,255,255,.14);
+  transition: background 260ms ease, width 260ms ease;
+}
+.cube-dot.is-active {
+  background: linear-gradient(135deg, #a78bfa, #ec4899);
+  width: 44px;
+}
+
+/* Light-theme adaptations */
+[data-theme="light"] .cube-face {
+  background-color: #ffffff;
+  color: #1a1d3a;
+  box-shadow: 0 24px 60px rgba(2, 4, 20, .12), inset 0 1px 0 rgba(255,255,255,.5);
+}
+[data-theme="light"] .cube-face-body pre { color: #2b2d54; }
+[data-theme="light"] .cube-face-foot     { color: #6b6d90; }
+[data-theme="light"] .cube-face-body--kpi .kpi-label,
+[data-theme="light"] .cube-face-body--flow .flow-node { color: #2b2d54; }
+[data-theme="light"] .cube-dot { background: rgba(0,0,0,.1); }
+
+@media (max-width: 900px) {
+  .cube-section { height: 260vh; }
+  .cube-scene {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    gap: 2rem;
+    padding-top: 8vh;
+  }
+  .cube-stage {
+    width: 220px;
+    height: 220px;
+    margin: 0 auto;
+  }
+  .cube-face { border-radius: 18px; padding: 14px 16px; gap: 12px; }
+  .cube-face--front  { transform: translateZ(110px); }
+  .cube-face--right  { transform: rotateY( 90deg) translateZ(110px); }
+  .cube-face--back   { transform: rotateY(180deg) translateZ(110px); }
+  .cube-face--left   { transform: rotateY(-90deg) translateZ(110px); }
+  .cube-face--top    { transform: rotateX( 90deg) translateZ(110px); }
+  .cube-face--bottom { transform: rotateX(-90deg) translateZ(110px); }
+  .cube-face-body pre { font-size: 10px; }
+  .cube-face-body--kpi .kpi-num { font-size: 42px; }
+  .cube-copy { max-width: 100%; text-align: center; }
+  .cube-dots { justify-content: center; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cube-section { height: auto; padding: 8rem 0; }
+  .cube-scene   { position: static; height: auto; }
+  .cube { transform: rotateX(-14deg) rotateY(-45deg); }
+}
+
+/* ============================================================
    3D tilt effect (mouse-driven, pairs with scroll parallax)
    Excludes .hero-visual — it already runs a GSAP scroll parallax.
    ============================================================ */

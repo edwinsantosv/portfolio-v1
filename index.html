@@ -236,6 +236,70 @@
       </div>
     </section>
 
+    <!-- DATA CUBE (3D scroll-scene, between About and Skills) -->
+    <section id="data-cube" class="cube-section" aria-hidden="true">
+      <div class="cube-scene">
+        <div class="cube-stage">
+          <div class="cube" id="data-cube-el">
+            <div class="cube-face cube-face--front">
+              <span class="cube-face-tag">01 · Query</span>
+              <div class="cube-face-body">
+                <pre><code><span class="c-keyword">SELECT</span>
+  region,
+  <span class="c-fn">SUM</span>(revenue)
+<span class="c-keyword">FROM</span> sales
+<span class="c-keyword">GROUP BY</span> region;</code></pre>
+              </div>
+              <span class="cube-face-foot">SQL · Postgres · BigQuery</span>
+            </div>
+            <div class="cube-face cube-face--right">
+              <span class="cube-face-tag">02 · Model</span>
+              <div class="cube-face-body cube-face-body--chart">
+                <div class="chart-bar" style="--h:32%"></div>
+                <div class="chart-bar" style="--h:58%"></div>
+                <div class="chart-bar" style="--h:74%"></div>
+                <div class="chart-bar" style="--h:46%"></div>
+                <div class="chart-bar" style="--h:88%"></div>
+              </div>
+              <span class="cube-face-foot">DAX · dbt · Star schemas</span>
+            </div>
+            <div class="cube-face cube-face--back">
+              <span class="cube-face-tag">03 · Visualize</span>
+              <div class="cube-face-body cube-face-body--kpi">
+                <div class="kpi-num">60+</div>
+                <div class="kpi-label">Dashboards<br/>delivered</div>
+              </div>
+              <span class="cube-face-foot">Power BI · Looker · Tableau</span>
+            </div>
+            <div class="cube-face cube-face--left">
+              <span class="cube-face-tag">04 · Automate</span>
+              <div class="cube-face-body cube-face-body--flow">
+                <span class="flow-node">Trigger</span>
+                <span class="flow-arrow">→</span>
+                <span class="flow-node">MCP</span>
+                <span class="flow-arrow">→</span>
+                <span class="flow-node">Action</span>
+              </div>
+              <span class="cube-face-foot">Power Automate · n8n · MCPs</span>
+            </div>
+            <div class="cube-face cube-face--top"></div>
+            <div class="cube-face cube-face--bottom"></div>
+          </div>
+        </div>
+        <div class="cube-copy">
+          <span class="cube-eyebrow">The Analytics loop</span>
+          <h3 class="cube-title" id="cube-title" data-face="0">Query</h3>
+          <p class="cube-desc" id="cube-desc" data-face="0">Turn raw data into precise questions with SQL.</p>
+          <div class="cube-dots">
+            <span class="cube-dot is-active" data-face="0"></span>
+            <span class="cube-dot" data-face="1"></span>
+            <span class="cube-dot" data-face="2"></span>
+            <span class="cube-dot" data-face="3"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- SKILLS -->
     <section id="skills" class="section">
       <div class="container">

@@ -117,6 +117,61 @@
     }
 
     /* -----------------------------------------------------
+       Data cube — scroll-driven 4-face rotation with copy sync
+       ----------------------------------------------------- */
+    (function initDataCube() {
+      const section = document.querySelector('.cube-section');
+      const cube    = document.getElementById('data-cube-el');
+      if (!section || !cube) return;
+
+      const faces = [
+        { key: 'query',     title: 'Query',     desc: 'Turn raw data into precise questions with SQL.' },
+        { key: 'model',     title: 'Model',     desc: 'Design metrics with DAX, dbt and star schemas.' },
+        { key: 'visualize', title: 'Visualize', desc: 'Ship decision-ready dashboards in Power BI, Looker or Tableau.' },
+        { key: 'automate',  title: 'Automate',  desc: 'Wire it all together with Power Automate, n8n and custom MCPs.' }
+      ];
+
+      const titleEl = document.getElementById('cube-title');
+      const descEl  = document.getElementById('cube-desc');
+      const dots    = document.querySelectorAll('.cube-dot');
+      let currentFace = 0;
+
+      function setActiveFace(idx) {
+        if (idx === currentFace) return;
+        currentFace = idx;
+        const f = faces[idx];
+        if (titleEl) titleEl.textContent = f.title;
+        if (descEl)  descEl.textContent  = f.desc;
+        dots.forEach((d, i) => d.classList.toggle('is-active', i === idx));
+      }
+
+      // Rotate cube 270° over the scroll of the section, land on each face
+      // (0°, -90°, -180°, -270°). Face index derived from rotation angle.
+      gsap.to(cube, {
+        rotationY: -270,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: section,
+          start: 'top top',
+          end: 'bottom bottom',
+          scrub: 0.6,
+          pin: false,
+          onUpdate: (self) => {
+            // progress 0..1 → face index 0..3
+            const idx = Math.min(3, Math.floor(self.progress * 4));
+            setActiveFace(idx);
+          }
+        }
+      });
+
+      // Skip complex 3D on mobile phones — the sticky/pin can jitter in Safari
+      if (isMobile) {
+        gsap.killTweensOf(cube);
+        cube.style.transform = 'rotateX(-14deg) rotateY(-45deg)';
+      }
+    })();
+
+    /* -----------------------------------------------------
        Section headers — number, title, line reveal in sequence.
        `immediateRender: false` on every child .from() so nothing stays
        invisible if the ScrollTrigger misfires (mobile Safari quirk).
