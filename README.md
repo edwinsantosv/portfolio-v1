@@ -2,19 +2,19 @@
 
 Personal portfolio, one-page Linktree landing and multi-format CVs for **Edwin Santos Vidal** — Business Analyst · Automation Consultant · Instructor. Based in Lima, working with international teams across the US, Canada and Europe.
 
-**Live:** [edwinsantosv.github.io/portfolio-v2.github.io](https://edwinsantosv.github.io/portfolio-v2.github.io/)
+**Live:** [edwinsantos.netlify.app](https://edwinsantos.netlify.app/)
 
 ## Repository contents
 
 | File | Purpose | Live URL |
 | --- | --- | --- |
-| `index.html` | Main portfolio (Hero, About, Skills, Projects, Experience, Awards, Contact). Bilingual ES/EN. | [/](https://edwinsantosv.github.io/portfolio-v2.github.io/) |
-| `linktree.html` | Standalone Linktree-style landing: Calendly, Email, WhatsApp, Portfolio, CV, LinkedIn, GitHub, awards. Ideal for bio links / QR codes. | [/linktree.html](https://edwinsantosv.github.io/portfolio-v2.github.io/linktree.html) |
-| `cv.html` | Web-based CV, print-friendly (Ctrl+P → Save as PDF). | [/cv.html](https://edwinsantosv.github.io/portfolio-v2.github.io/cv.html) |
-| `Edwin_Santos_CV.tex` / `.pdf` | Full 2-page CV (modern, colored). Good for tech/startup applications. | [PDF](https://edwinsantosv.github.io/portfolio-v2.github.io/Edwin_Santos_CV.pdf) |
-| `Edwin_Santos_CV_1page.tex` / `.pdf` | Compact 1-page CV (modern, colored). Good for consulting/EU roles. | [PDF](https://edwinsantosv.github.io/portfolio-v2.github.io/Edwin_Santos_CV_1page.pdf) |
-| `Edwin_Santos_CV_Harvard.tex` / `.pdf` | 1-page CV in Harvard OCS style (Times, no color). Good for MBA/MBB consulting/banking. | [PDF](https://edwinsantosv.github.io/portfolio-v2.github.io/Edwin_Santos_CV_Harvard.pdf) |
-| `Edwin_Santos_Portfolio.tex` / `.pdf` | 4-page portfolio brochure: cover, featured projects with visuals, current consulting work, past highlights, awards + contact CTA. | [PDF](https://edwinsantosv.github.io/portfolio-v2.github.io/Edwin_Santos_Portfolio.pdf) |
+| `index.html` | Main portfolio (Hero, About, Skills, Projects, Experience, Awards, Contact). Bilingual ES/EN. | [/](https://edwinsantos.netlify.app/) |
+| `linktree.html` | Standalone Linktree-style landing: Calendly, Email, WhatsApp, Portfolio, CV, LinkedIn, GitHub, awards. Ideal for bio links / QR codes. | [/linktree.html](https://edwinsantos.netlify.app/linktree.html) |
+| `cv.html` | Web-based CV, print-friendly (Ctrl+P → Save as PDF). | [/cv.html](https://edwinsantos.netlify.app/cv.html) |
+| `Edwin_Santos_CV.tex` / `.pdf` | Full 2-page CV (modern, colored). Good for tech/startup applications. | [PDF](https://edwinsantos.netlify.app/Edwin_Santos_CV.pdf) |
+| `Edwin_Santos_CV_1page.tex` / `.pdf` | Compact 1-page CV (modern, colored). Good for consulting/EU roles. | [PDF](https://edwinsantos.netlify.app/Edwin_Santos_CV_1page.pdf) |
+| `Edwin_Santos_CV_Harvard.tex` / `.pdf` | 1-page CV in Harvard OCS style (Times, no color). Good for MBA/MBB consulting/banking. | [PDF](https://edwinsantos.netlify.app/Edwin_Santos_CV_Harvard.pdf) |
+| `Edwin_Santos_Portfolio.tex` / `.pdf` | 4-page portfolio brochure: cover, featured projects with visuals, current consulting work, past highlights, awards + contact CTA. | [PDF](https://edwinsantos.netlify.app/Edwin_Santos_Portfolio.pdf) |
 | `styles.css` · `script.js` | Portfolio styling and interactivity (i18n ES/EN, dark/light theme toggle, reveal on scroll, contact form, counters). |
 | `analytics.js` | Google Analytics 4 loader — shared across every HTML page. Inert until a real `G-XXXXXXXXXX` Measurement ID is set. See [Analytics](#analytics) section for setup. |
 | `project-dark.css` · `project-dark.js` | Shared styling for individual project case pages. |
@@ -73,14 +73,15 @@ Each `.tex` is self-contained and compiles in one pass. On Overleaf: upload the 
 
 ## Deployment
 
-The site is served via **GitHub Pages** from the `published` branch of [`edwinsantosv/portfolio-v2.github.io`](https://github.com/edwinsantosv/portfolio-v2.github.io). Any push to `published` triggers a rebuild (~1 minute).
+The site is served via **Netlify** from the `published` branch of [`edwinsantosv/portfolio-v2.github.io`](https://github.com/edwinsantosv/portfolio-v2.github.io). Any push to `published` triggers a fresh build (~10-30 seconds). Preview builds are also generated for every PR.
 
-Two additional mirrors exist for legacy reasons:
+**Primary live:** [edwinsantos.netlify.app](https://edwinsantos.netlify.app)
 
-- [`edwinsantosv/portfolio-v1`](https://github.com/edwinsantosv/portfolio-v1) → serves `main` at [edwinsantosv.github.io/portfolio-v1/](https://edwinsantosv.github.io/portfolio-v1/)
+Legacy mirrors (may be out of date):
+
+- [`edwinsantosv.github.io/portfolio-v2.github.io/`](https://edwinsantosv.github.io/portfolio-v2.github.io/) — old GitHub Pages deploy
+- [`edwinsantosv/portfolio-v1`](https://github.com/edwinsantosv/portfolio-v1) → serves `main`
 - [`edwinsantosv/portfolio-main.github.io`](https://github.com/edwinsantosv/portfolio-main.github.io) → serves `main`
-
-The primary live is **`portfolio-v2.github.io`**. The others are kept in sync only when the copy is worth backporting.
 
 ## Analytics
 
@@ -89,7 +90,7 @@ Google Analytics 4 is wired up via a shared loader at `analytics.js`, included f
 **One-time setup:**
 
 1. Go to [analytics.google.com](https://analytics.google.com) → **Admin** → **Create property** (name: *Edwin Santos Portfolio*, timezone: America/Lima, currency: USD).
-2. Inside the property → **Data Streams** → **Add stream** → **Web** → URL: `https://edwinsantosv.github.io/portfolio-v2.github.io/` → stream name: *Portfolio v2*.
+2. Inside the property → **Data Streams** → **Add stream** → **Web** → URL: `https://edwinsantos.netlify.app/` → stream name: *Portfolio v2*.
 3. Copy the **Measurement ID** (format `G-XXXXXXXXXX`).
 4. Open `analytics.js` and replace the placeholder on the first non-comment line:
 
