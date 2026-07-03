@@ -1618,13 +1618,11 @@ html.gsap-ready .reveal {
    ============================================================ */
 .cube-section {
   position: relative;
-  height: 340vh;
-  height: 340svh;            /* small viewport height — stable on iOS Safari */
   padding: 0;
+  /* GSAP handles the scroll pinning — no extra height needed here. */
 }
 .cube-scene {
-  position: sticky;
-  top: 0;
+  position: relative;
   height: 100vh;
   height: 100svh;
   display: grid;
@@ -1819,7 +1817,6 @@ html.gsap-ready .reveal {
 [data-theme="light"] .cube-dot { background: rgba(0,0,0,.1); }
 
 @media (max-width: 900px) {
-  .cube-section { height: 240vh; height: 240svh; }
   .cube-scene {
     grid-template-columns: 1fr;
     grid-template-rows: auto auto;
@@ -1846,8 +1843,8 @@ html.gsap-ready .reveal {
   .cube-dots { justify-content: center; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .cube-section { height: auto; padding: 8rem 0; }
-  .cube-scene   { position: static; height: auto; }
+  .cube-section { padding: 8rem 0; }
+  .cube-scene   { height: auto; }
   .cube { transform: rotateX(-14deg) rotateY(-45deg); }
 }
 

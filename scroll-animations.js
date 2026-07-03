@@ -145,18 +145,21 @@
         dots.forEach((d, i) => d.classList.toggle('is-active', i === idx));
       }
 
-      // Rotate cube 270° over the scroll of the section, land on each face
-      // (0°, -90°, -180°, -270°). Face index derived from rotation angle.
-      // Runs on mobile too — the CSS sticky handles the pin, no GSAP pin needed.
+      // Rotate cube 270° while the section is pinned. GSAP creates a pin-spacer
+      // that reserves exactly the scroll distance we ask for (+=180%) — so there's
+      // never a dead zone of empty scroll after the rotation completes.
+      const scrollLen = isMobile ? '+=140%' : '+=180%';
       gsap.to(cube, {
         rotationY: -270,
         ease: 'none',
         scrollTrigger: {
           trigger: section,
           start: 'top top',
-          end: 'bottom bottom',
+          end: scrollLen,
           scrub: 0.6,
-          pin: false,
+          pin: true,
+          pinSpacing: true,
+          anticipatePin: 1,
           onUpdate: (self) => {
             const idx = Math.min(3, Math.floor(self.progress * 4));
             setActiveFace(idx);
