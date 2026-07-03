@@ -459,8 +459,9 @@
     if (!isFinePointer || reduceMotion) return;
 
     // targets: [selector, maxDeg, glare]
+    // NOTE: .hero-visual is excluded because it already has a GSAP scroll-parallax
+    // (yPercent + scale + opacity) that would fight with an inline mouse-tilt transform.
     const targets = [
-      { selector: '.hero-visual',     max: 8,  glare: true  },
       { selector: '.project-card',    max: 10, glare: true  },
       { selector: '.skill-card',      max: 6,  glare: false },
       { selector: '.cert-card',       max: 8,  glare: false }

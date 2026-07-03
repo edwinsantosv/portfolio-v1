@@ -1615,15 +1615,14 @@ html.gsap-ready .reveal {
 
 /* ============================================================
    3D tilt effect (mouse-driven, pairs with scroll parallax)
+   Excludes .hero-visual — it already runs a GSAP scroll parallax.
    ============================================================ */
-.hero-visual,
 .project-card,
 .skill-card,
 .cert-card {
   transition: transform 300ms cubic-bezier(.2,.7,.2,1), box-shadow 300ms ease;
   transform-style: preserve-3d;
 }
-.hero-visual:hover,
 .project-card:hover,
 .skill-card:hover,
 .cert-card:hover {
@@ -1639,23 +1638,17 @@ html.gsap-ready .reveal {
   transition: opacity 300ms ease;
   z-index: 2;
 }
-.hero-visual:hover .tilt-glare,
 .project-card:hover .tilt-glare,
 .cert-card:hover .tilt-glare {
   opacity: 1;
 }
-/* Ensure inner content sits above the glare and respects the 3D plane. */
-.project-card > *,
-.cert-card > *,
-.skill-card > *,
-.hero-visual > * {
+.project-card > *:not(.tilt-glare),
+.cert-card > *:not(.tilt-glare),
+.skill-card > *:not(.tilt-glare) {
   position: relative;
   z-index: 3;
-  transform: translateZ(0);
 }
-/* Disable tilt on touch devices to avoid weird transforms on tap. */
 @media (hover: none), (pointer: coarse) {
-  .hero-visual,
   .project-card,
   .skill-card,
   .cert-card {
@@ -1664,7 +1657,6 @@ html.gsap-ready .reveal {
   .tilt-glare { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .hero-visual,
   .project-card,
   .skill-card,
   .cert-card {
