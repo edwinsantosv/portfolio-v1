@@ -119,43 +119,43 @@ The entire page should have an **ambient background layer that changes as the us
 - Respects `prefers-reduced-motion` — reduces to a static gradient
 - Cheap to render — <2% CPU overhead, no jank at 60fps
 
-**Pick one of these approaches (recommended in order):**
+**Chosen approach — Aurora waves. Ship this exactly.**
 
-#### Option A — Scroll-driven aurora waves ⭐ (recommended)
-- 2-3 soft blurred color blobs (indigo, purple, pink) that drift slowly across the viewport
-- Their *positions* and *colors* interpolate based on scroll progress (e.g. 0% = indigo top-left, 50% = purple center, 100% = pink bottom-right)
-- Uses CSS `radial-gradient` + `filter: blur(120px)` — no WebGL needed
-- Very cheap, very smooth. Vercel/Linear vibe.
+### Spec
 
-#### Option B — Constellation / data network
-- Background is a canvas with 40-60 slowly-drifting dots
-- Dots within 150px of each other draw connecting lines
-- On-brand for data theme
-- Cursor near the canvas subtly attracts/repels dots (magnetic)
-- Uses `<canvas>` + `requestAnimationFrame`. ~2KB of code. Fits our aesthetic perfectly.
-- Reference: search CodePen for "particle network background canvas"
+- Fixed layer behind all content: `position: fixed; inset: 0; z-index: -1; pointer-events: none;`
+- 3 soft blurred color blobs rendered as full-viewport `radial-gradient` divs:
+  - Blob 1: indigo `#6366f1`
+  - Blob 2: purple `#a855f7`
+  - Blob 3: pink `#ec4899`
+- Each blob has independent slow drift animation (40-60s per cycle) so movement feels ambient, not directed
+- Positions + opacities interpolate based on scroll progress through the whole page:
 
-#### Option C — Perspective grid floor
-- Vercel Edge Network vibe: a wireframe grid receding to horizon, fixed at bottom of viewport
-- Grid moves *toward* the viewer as user scrolls (creates "traveling forward" feel)
-- CSS only, uses perspective + linear-gradient patterns
-- Combines beautifully with Option A above
+| Scroll % | Section | Dominant color | Blob layout |
+|---|---|---|---|
+| 0% | Hero | indigo | top-left, ~120vw wide |
+| 25% | About / Skills | indigo→purple | center-right shifts up |
+| 50% | Projects / Experience | purple + pink emerging | pink joins bottom, indigo fades |
+| 75% | Certifications / Awards | pink dominant | indigo drifts off, purple mid |
+| 100% | Contact | warm pink + purple | top-right dominant |
 
-#### Option D — Section-tinted color transitions
-- Each section has an assigned accent tint (About = indigo, Skills = sky, Projects = purple, Experience = amber, Education = green, Certifications = pink, Awards = gold)
-- A fixed background layer smoothly interpolates from tint to tint as sections enter viewport
-- Feels like a "chapter change" without needing chapter marker cards
-- Simplest to implement — just animate a CSS variable on scroll
+- Uses CSS `radial-gradient` + `filter: blur(120px)` on each blob — no WebGL, no canvas
+- Interpolation driven by GSAP ScrollTrigger with `scrub: 1` on a body-wide trigger (`start: 'top top', end: 'bottom bottom'`)
+- Very cheap: 3 divs, transform + opacity only, no per-frame repaints
 
-**My recommendation:** ship Option A + Option D combined.
+### Reduced-motion fallback
 
-- Option A gives the aurora movement
-- Option D gives the *narrative color arc* through the page
-- Together: user feels the page transitions cinematically without any single effect being loud
+- Blobs stay visible but *static* — positioned at their ~50% state. No drift, no scroll interpolation.
 
-**Extra polish (if easy):**
-- The cursor-follow orb from Round 1 could also contribute to this — it can inherit the current section's tint from Option D. So the orb starts indigo in hero, warms to pink at Contact.
-- The mesh gradient behind the hero (already existing) should be *unified* with this global background — remove the hero mesh and let the global background handle it.
+### Layer with the existing hero mesh
+
+- The hero already has `.bg-mesh` with 3 layers (`.mesh-1/2/3`). *Unify these* — remove the hero-only mesh and let the new global aurora handle the hero background too. Prevents double-blur / stacking cost.
+
+### Bonus polish (if timing allows)
+
+- The Round 1 cursor-follow orb can inherit the *current dominant color* of the aurora, so as user scrolls, orb warmth shifts. Ties Round 1 and Round 2 together.
+- On mobile, reduce blur radius (60px instead of 120px) and lock the aurora to a simpler 2-state interpolation (top-half indigo, bottom-half pink). Preserves the effect at lower render cost.
+- Keep blob movement subtle enough that a user could squint and think "is that moving?" — that ambient uncertainty is what makes it feel premium (Vercel/Linear pattern).
 
 ---
 
