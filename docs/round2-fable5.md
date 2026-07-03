@@ -109,6 +109,54 @@ Below assumes the current section order: Hero → About → Data Cube → Skills
 - **Section entrance choreography variation** — currently every section fades in similarly. Give each section a signature entrance (see Round 1 brief for concrete ideas, Priority 2).
 - **Chapter markers (optional):** small full-viewport transition cards between major sections. Simple: dark background + "01 · Story" + "02 · Skills" etc. Fades in and out over 100vh of scroll each. Apple keynote-style. Feels too much? Skip.
 
+### 🌌 Global background effect that evolves with scroll (Edwin's explicit request)
+
+The entire page should have an **ambient background layer that changes as the user scrolls**. It sits behind all content, adds depth, and gives the sense that the whole page is one continuous scene rather than 10 stacked sections.
+
+**Requirements:**
+- Fixed to viewport (`position: fixed`) — doesn't scroll with content, but its *appearance* changes based on scroll position
+- Subtle — never fights with the foreground content for attention
+- Respects `prefers-reduced-motion` — reduces to a static gradient
+- Cheap to render — <2% CPU overhead, no jank at 60fps
+
+**Pick one of these approaches (recommended in order):**
+
+#### Option A — Scroll-driven aurora waves ⭐ (recommended)
+- 2-3 soft blurred color blobs (indigo, purple, pink) that drift slowly across the viewport
+- Their *positions* and *colors* interpolate based on scroll progress (e.g. 0% = indigo top-left, 50% = purple center, 100% = pink bottom-right)
+- Uses CSS `radial-gradient` + `filter: blur(120px)` — no WebGL needed
+- Very cheap, very smooth. Vercel/Linear vibe.
+
+#### Option B — Constellation / data network
+- Background is a canvas with 40-60 slowly-drifting dots
+- Dots within 150px of each other draw connecting lines
+- On-brand for data theme
+- Cursor near the canvas subtly attracts/repels dots (magnetic)
+- Uses `<canvas>` + `requestAnimationFrame`. ~2KB of code. Fits our aesthetic perfectly.
+- Reference: search CodePen for "particle network background canvas"
+
+#### Option C — Perspective grid floor
+- Vercel Edge Network vibe: a wireframe grid receding to horizon, fixed at bottom of viewport
+- Grid moves *toward* the viewer as user scrolls (creates "traveling forward" feel)
+- CSS only, uses perspective + linear-gradient patterns
+- Combines beautifully with Option A above
+
+#### Option D — Section-tinted color transitions
+- Each section has an assigned accent tint (About = indigo, Skills = sky, Projects = purple, Experience = amber, Education = green, Certifications = pink, Awards = gold)
+- A fixed background layer smoothly interpolates from tint to tint as sections enter viewport
+- Feels like a "chapter change" without needing chapter marker cards
+- Simplest to implement — just animate a CSS variable on scroll
+
+**My recommendation:** ship Option A + Option D combined.
+
+- Option A gives the aurora movement
+- Option D gives the *narrative color arc* through the page
+- Together: user feels the page transitions cinematically without any single effect being loud
+
+**Extra polish (if easy):**
+- The cursor-follow orb from Round 1 could also contribute to this — it can inherit the current section's tint from Option D. So the orb starts indigo in hero, warms to pink at Contact.
+- The mesh gradient behind the hero (already existing) should be *unified* with this global background — remove the hero mesh and let the global background handle it.
+
 ---
 
 ## 3. Libraries + resources (all free)
