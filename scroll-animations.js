@@ -30,6 +30,33 @@
     const isMobile = window.matchMedia('(max-width: 768px)').matches;
     const intensity = isMobile ? 0.6 : 1;
 
+    /* -----------------------------------------------------
+       Lenis smooth scroll (desktop / fine pointer only) —
+       bridged into ScrollTrigger so every scrub/trigger keeps
+       its position. If the CDN fails, native scrolling and the
+       CSS scroll-behavior:smooth remain untouched.
+       ----------------------------------------------------- */
+    if (window.Lenis && !isMobile && window.matchMedia('(pointer: fine)').matches) {
+      const lenis = new window.Lenis({ lerp: 0.12 });
+      document.documentElement.classList.add('lenis-on'); // disables CSS smooth-scroll
+      lenis.on('scroll', ScrollTrigger.update);
+      gsap.ticker.add((time) => lenis.raf(time * 1000));
+      gsap.ticker.lagSmoothing(0);
+
+      // Route in-page anchors through Lenis (CSS smooth-scroll is off now)
+      document.querySelectorAll('a[href^="#"]').forEach((a) => {
+        a.addEventListener('click', (e) => {
+          const id = a.getAttribute('href');
+          if (!id || id.length < 2) return;
+          const target = document.querySelector(id);
+          if (!target) return;
+          e.preventDefault();
+          lenis.scrollTo(target, { duration: 1.1 });
+          history.pushState(null, '', id);
+        });
+      });
+    }
+
     // Signal to CSS that GSAP took over and mark reveal items as "in" so their
     // resting state is opacity:1 / translateY(0). Any subsequent GSAP .from()
     // uses immediateRender:false, so nothing stays hidden if a trigger fails.
@@ -64,28 +91,72 @@
     }
 
     /* -----------------------------------------------------
-       HERO — entrance choreography (no ScrollTrigger, plays on load)
+       HERO — cinematic entrance choreography (plays on load).
+       Waits for the first-visit splash when one is running
+       (entrance.js exposes the delay), then builds the hero in
+       ordered beats: atmosphere → badge → name scramble → role
+       typewriter → copy → CTAs → stats → terminal → chips.
+       Text FX live in entrance.js (window.__fx) so they also
+       degrade gracefully when GSAP is absent.
        ----------------------------------------------------- */
-    const heroTL = gsap.timeline({ defaults: { ease: 'expo.out', duration: 1 } });
-    heroTL
-      .from('.hero-badge',      { y: 24, opacity: 0 })
-      .from('.hero-greet',      { y: 18, opacity: 0 }, '-=0.8')
-      .from('.hero-name',       { y: 28, opacity: 0 }, '-=0.8')
-      .from('.hero-role',       { y: 18, opacity: 0 }, '-=0.8')
-      .from('.hero-desc',       { y: 16, opacity: 0 }, '-=0.75')
-      .from('.hero-cta .btn',   { y: 16, opacity: 0, stagger: 0.1 }, '-=0.7')
-      .from('.hero-stats .stat',{ y: 16, opacity: 0, scale: 0.92, stagger: 0.08 }, '-=0.55')
-      .from('.terminal',        { y: 30, opacity: 0, scale: 0.97, duration: 1.1 }, '-=1.1')
-      .from('.floating-card',   { scale: 0.5, opacity: 0, stagger: 0.15, duration: 0.8, ease: 'back.out(2)' }, '-=0.55');
+    const introDelay = window.__introDelay || 0;
+    const fx = () => window.__fx || {};
 
-    // Fancy terminal reveal only on desktop (clip-path can be janky on mobile)
+    const heroTL = gsap.timeline({ delay: introDelay, defaults: { ease: 'expo.out', duration: 1 } });
+    heroTL
+      // atmosphere first: gradient meshes breathe in (clearProps so the
+      // light-theme per-mesh opacities keep working after the tween)
+      .from('.mesh', { opacity: 0, duration: 1.2, stagger: 0.15, ease: 'power2.out', clearProps: 'opacity' }, 0)
+      .from('.hero-badge',      { y: 24, opacity: 0 }, 0.2)
+      .from('.hero-greet',      { y: 18, opacity: 0, duration: 0.6 }, 0.45)
+      .from('.hero-name',       { y: 26, opacity: 0, duration: 0.7 }, 0.55)
+      .call(() => { if (fx().scrambleName) fx().scrambleName(); }, null, 0.6)
+      .from('.hero-role',       { y: 18, opacity: 0, duration: 0.6 }, 0.9)
+      .call(() => { if (fx().typeRole) fx().typeRole(); }, null, 1.0)
+      .from('.hero-desc',       { y: 16, opacity: 0 }, 1.55)
+      .from('.hero-cta .btn',   { y: 16, opacity: 0, stagger: 0.1 }, 1.75)
+      .from('.hero-stats .stat',{ y: 16, opacity: 0, scale: 0.92, stagger: 0.08 }, 1.9)
+      .from('.terminal',        { y: 30, opacity: 0, scale: 0.97, duration: 1.1 }, 1.15)
+      .from('.floating-card',   { scale: 0.5, opacity: 0, stagger: 0.15, duration: 0.8, ease: 'back.out(2)' }, 2.2);
+
+    // Fancy terminal reveal only on desktop (clip-path can be janky on
+    // mobile). Ends right at --term-run (styles.css), when the caret
+    // starts blinking and the query "result" rows animate in.
     if (!isMobile) {
       const code = document.querySelector('.terminal-body code');
       if (code) {
         gsap.fromTo(code,
           { clipPath: 'inset(0 100% 0 0)' },
-          { clipPath: 'inset(0 0% 0 0)', duration: 1.6, ease: 'power2.inOut', delay: 0.8 }
+          { clipPath: 'inset(0 0% 0 0)', duration: 1.6, ease: 'power2.inOut', delay: introDelay + 1.55 }
         );
+      }
+    }
+
+    /* -----------------------------------------------------
+       Mouse parallax — hero layers drift subtly toward the
+       pointer at different depths. quickTo x/y composes with
+       the scroll-driven yPercent tweens below (both are GSAP),
+       so nothing fights over the transform.
+       ----------------------------------------------------- */
+    if (!isMobile && window.matchMedia('(pointer: fine)').matches) {
+      const layers = [
+        ['.mesh-1', 26, 18], ['.mesh-2', -20, -14], ['.mesh-3', 16, 10],
+        ['.card-1', 14, 10], ['.card-2', -12, -8], ['.hero-visual', 7, 5],
+      ];
+      const movers = layers.map(([sel, mx, my]) => {
+        const el = document.querySelector(sel);
+        return el && {
+          mx, my,
+          x: gsap.quickTo(el, 'x', { duration: 0.9, ease: 'power3.out' }),
+          y: gsap.quickTo(el, 'y', { duration: 0.9, ease: 'power3.out' }),
+        };
+      }).filter(Boolean);
+      if (movers.length) {
+        window.addEventListener('mousemove', (e) => {
+          const nx = (e.clientX / window.innerWidth) * 2 - 1;   // -1 .. 1
+          const ny = (e.clientY / window.innerHeight) * 2 - 1;
+          movers.forEach(m => { m.x(nx * m.mx); m.y(ny * m.my); });
+        }, { passive: true });
       }
     }
 

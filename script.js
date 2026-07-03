@@ -341,15 +341,23 @@
     const animate = (el) => {
       const target = parseInt(el.getAttribute('data-target'), 10) || 0;
       const duration = 1400;
-      const start = performance.now();
-      const tick = (now) => {
-        const t = Math.min((now - start) / duration, 1);
-        const eased = 1 - Math.pow(1 - t, 3);
-        el.textContent = Math.round(target * eased);
-        if (t < 1) requestAnimationFrame(tick);
-        else el.textContent = target;
+      const run = () => {
+        const start = performance.now();
+        const tick = (now) => {
+          const t = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - t, 3);
+          el.textContent = Math.round(target * eased);
+          if (t < 1) requestAnimationFrame(tick);
+          else el.textContent = target;
+        };
+        requestAnimationFrame(tick);
       };
-      requestAnimationFrame(tick);
+      // Hero stats hold until the entrance choreography reveals them
+      // (entrance.js sets __statReadyAt; capped so they can never stall).
+      const wait = el.closest('.hero-stats')
+        ? Math.max(0, (window.__statReadyAt || 0) - performance.now())
+        : 0;
+      wait > 0 ? setTimeout(run, Math.min(wait, 3200)) : run();
     };
     if (!('IntersectionObserver' in window)) {
       counters.forEach(animate);

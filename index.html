@@ -9,6 +9,22 @@
 
   <title>Edwin Santos — Business Analyst & Automation Consultant</title>
 
+  <script>
+    // Splash gate — decided BEFORE first paint so there is never a flash.
+    // First visit per session only; skippable with ?nointro=1; skipped
+    // entirely under prefers-reduced-motion. entrance.js + styles.css
+    // react to the html[data-splash] attribute.
+    (function () {
+      try {
+        if (new URLSearchParams(location.search).get('nointro') === '1') return;
+        if (sessionStorage.getItem('intro-seen')) return;
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        document.documentElement.setAttribute('data-splash', '');
+        sessionStorage.setItem('intro-seen', '1');
+      } catch (e) { /* storage blocked → no splash, page loads normally */ }
+    })();
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -20,9 +36,18 @@
   <!-- Apple-style scroll animations (GSAP + ScrollTrigger via CDN) -->
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
+  <!-- Lenis smooth scroll (desktop only, bridged to ScrollTrigger in scroll-animations.js) -->
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js" defer></script>
+  <!-- Cinematic entrance: splash, particles, cursor orb, text FX (before scroll-animations.js) -->
+  <script src="entrance.js" defer></script>
   <script src="scroll-animations.js" defer></script>
 </head>
 <body>
+
+  <!-- First-visit splash (only rendered when html[data-splash] is set in <head>) -->
+  <div class="splash" aria-hidden="true">
+    <div class="splash-mark">ES<span class="splash-dot"></span></div>
+  </div>
 
   <!-- Scroll progress bar (GSAP-driven) -->
   <div class="scroll-progress" aria-hidden="true"></div>
@@ -73,6 +98,8 @@
 
     <!-- HERO -->
     <section id="hero" class="hero">
+      <!-- Ambient particle field (dots seeded by entrance.js, drift is pure CSS) -->
+      <div class="hero-particles" aria-hidden="true"></div>
       <div class="container hero-grid">
         <div class="hero-content">
           <div class="hero-badge reveal">
@@ -134,16 +161,43 @@
 <span class="c-keyword">FROM</span> sales
 <span class="c-keyword">WHERE</span> year = <span class="c-num">2026</span>
 <span class="c-keyword">GROUP BY</span> region;
-<span class="c-comment">-- → Insight para C-level 🚀</span></code></pre>
+<span class="c-comment">-- → Insight para C-level 🚀</span><span class="term-caret" aria-hidden="true"></span></code></pre>
+            <!-- Query "executes" after the SQL finishes writing (pure CSS timing) -->
+            <div class="terminal-result" aria-hidden="true">
+              <div class="tr-row tr-head" style="--i:0">
+                <span>region</span><span>total</span><span class="tr-num">ranking</span>
+              </div>
+              <div class="tr-row" style="--i:1">
+                <span>NA</span>
+                <span class="tr-bar-wrap"><i class="tr-bar" style="--w:58%"></i>4.2M</span>
+                <span class="tr-num">1</span>
+              </div>
+              <div class="tr-row" style="--i:2">
+                <span>EU</span>
+                <span class="tr-bar-wrap"><i class="tr-bar" style="--w:42%"></i>3.1M</span>
+                <span class="tr-num">2</span>
+              </div>
+              <div class="tr-row" style="--i:3">
+                <span>LATAM</span>
+                <span class="tr-bar-wrap"><i class="tr-bar" style="--w:25%"></i>1.8M</span>
+                <span class="tr-num">3</span>
+              </div>
+            </div>
           </div>
 
+          <!-- Chips: outer div is GSAP-owned (entrance/parallax/mouse), inner
+               wrapper carries the CSS float loop — the two never fight. -->
           <div class="floating-card card-1">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-5"/></svg>
-            <span>Power BI</span>
+            <span class="fc-inner">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-5"/></svg>
+              <span>Power BI</span>
+            </span>
           </div>
           <div class="floating-card card-2">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-            <span>Power Platform</span>
+            <span class="fc-inner">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+              <span>Power Platform</span>
+            </span>
           </div>
         </div>
       </div>

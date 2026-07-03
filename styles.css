@@ -554,13 +554,21 @@ ul { list-style: none; padding: 0; margin: 0; }
   white-space: pre;
   overflow-x: auto;
 }
+/* block, not inline: the GSAP clip-path write-on effect needs a single
+   box as reference — on an inline element Chrome clips against the first
+   line fragment only, hiding every line after the first */
+.terminal-body code { display: block; }
 .c-keyword { color: #c084fc; font-weight: 600; }
 .c-fn      { color: #60a5fa; }
 .c-num     { color: #fbbf24; }
 .c-comment { color: #6b7280; font-style: italic; }
 
-.floating-card {
-  position: absolute;
+/* Chips are split in two layers: the outer .floating-card is GSAP-owned
+   (entrance scale, scroll parallax, mouse parallax — inline transforms),
+   while .fc-inner carries the CSS float loop. A CSS animation on the same
+   element would override GSAP's inline transform and freeze it. */
+.floating-card { position: absolute; }
+.fc-inner {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -573,17 +581,17 @@ ul { list-style: none; padding: 0; margin: 0; }
   font-weight: 600;
   box-shadow: var(--shadow-1);
 }
-.floating-card svg { color: var(--accent); }
+.fc-inner svg { color: var(--accent); }
 .card-1 {
   top: -22px;
   left: -32px;
-  animation: float 5s var(--ease) infinite;
 }
 .card-2 {
   bottom: -22px;
   right: -16px;
-  animation: float 6s var(--ease) infinite reverse;
 }
+.card-1 .fc-inner { animation: float 5s var(--ease) infinite; }
+.card-2 .fc-inner { animation: float 6s var(--ease) infinite reverse; }
 @keyframes float {
   0%, 100% { transform: translateY(0); }
   50%      { transform: translateY(-10px); }
@@ -1464,7 +1472,7 @@ ul { list-style: none; padding: 0; margin: 0; }
 
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1; transform: none; transition: none; }
-  .mesh, .pulse-dot, .floating-card, .profile-glow, .scroll-hint span, .logo-dot { animation: none !important; }
+  .mesh, .pulse-dot, .floating-card, .fc-inner, .profile-glow, .scroll-hint span, .logo-dot { animation: none !important; }
   html { scroll-behavior: auto; }
 }
 
@@ -1899,4 +1907,216 @@ html.gsap-ready .reveal {
     transition: none;
   }
   .tilt-glare { display: none; }
+}
+
+/* =========================================================
+   Cinematic entrance — splash, ambient particles, cursor orb,
+   terminal query execution, typing caret, Lenis.
+   (Companion to entrance.js; scroll-animations.js drives the
+   hero timeline. Everything here fails open.)
+   ========================================================= */
+
+/* Timing anchor for the terminal "execution": the SQL clip-path write
+   ends ~3.15s after load (0.75s later when the splash runs), so the
+   caret + result rows are keyed off this variable. Pure CSS = the
+   result always shows up, even if every script dies. */
+:root { --term-run: 3.25s; }
+html[data-splash] { --term-run: 4s; }
+
+/* --- First-visit splash --------------------------------- */
+.splash { display: none; }
+html[data-splash] .splash {
+  display: flex;
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-0);
+  pointer-events: none;
+  animation: splash-out .45s var(--ease) .7s forwards;
+}
+.splash-mark {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 7px;
+  font-family: var(--font-mono);
+  font-size: 46px;
+  font-weight: 700;
+  letter-spacing: -2px;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  opacity: 0;
+  animation: splash-mark-in .35s var(--ease) .05s forwards;
+}
+.splash-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 18px var(--accent-glow);
+}
+@keyframes splash-mark-in {
+  from { opacity: 0; transform: scale(.85); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes splash-out {
+  to { opacity: 0; transform: scale(1.06); visibility: hidden; }
+}
+
+/* --- Ambient hero particles ------------------------------ */
+.hero-particles {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+  animation: particles-in 1.6s ease .4s forwards;
+}
+html[data-splash] .hero-particles { animation-delay: 1.1s; }
+@keyframes particles-in {
+  to { opacity: var(--particles-max, 1); }
+}
+[data-theme="light"] .hero-particles { --particles-max: .45; }
+.particle {
+  position: absolute;
+  left: var(--p-x);
+  top: var(--p-y);
+  width: var(--p-s);
+  height: var(--p-s);
+  border-radius: 50%;
+  background: rgb(var(--p-rgb) / var(--p-a, .4));
+  animation: particle-drift var(--p-dur, 12s) ease-in-out var(--p-del, 0s) infinite alternate;
+}
+@keyframes particle-drift {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(var(--p-dx, 20px), var(--p-dy, -40px), 0); }
+}
+
+/* --- Cursor-follow ambient orb --------------------------- */
+.cursor-orb {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 9990;
+  width: 340px;
+  height: 340px;
+  margin: -170px 0 0 -170px;
+  border-radius: 50%;
+  background: radial-gradient(circle,
+    rgba(99, 102, 241, .16) 0%,
+    rgba(168, 85, 247, .10) 35%,
+    rgba(236, 72, 153, .05) 58%,
+    transparent 74%);
+  filter: blur(8px);
+  mix-blend-mode: screen;
+  pointer-events: none;
+  opacity: 0;
+  scale: 1;
+  transition: opacity .5s ease, scale .35s var(--ease);
+  will-change: transform;
+}
+.cursor-orb.is-on   { opacity: 1; }
+.cursor-orb.is-grow { scale: 1.4; }
+/* screen-blend glow is invisible-to-odd on white — dark theme only */
+[data-theme="light"] .cursor-orb { display: none; }
+
+/* --- Terminal: caret + query result ----------------------- */
+.term-caret {
+  display: inline-block;
+  width: 8px;
+  height: 15px;
+  margin-left: 3px;
+  vertical-align: -2px;
+  border-radius: 1px;
+  background: var(--accent);
+  opacity: 0;
+  animation: caret-blink 1.1s step-end var(--term-run) infinite;
+}
+@keyframes caret-blink {
+  0%, 54%  { opacity: 1; }
+  55%, 100% { opacity: 0; }
+}
+
+/* Rows keep their layout space from first paint (opacity/transform only),
+   so the reveal never shifts the terminal or the floating chips. */
+.terminal-result {
+  border-top: 1px solid var(--border);
+  padding: 12px 24px 16px;
+  display: grid;
+  gap: 7px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: #cfd2dc;
+}
+.tr-row {
+  display: grid;
+  grid-template-columns: 58px 1fr 56px;
+  gap: 12px;
+  align-items: center;
+  opacity: 0;
+  transform: translateY(6px);
+  animation: tr-in .5s var(--ease) calc(var(--term-run) + var(--i, 0) * .18s) forwards;
+}
+.tr-head {
+  color: var(--text-dim);
+  text-transform: uppercase;
+  font-size: 10.5px;
+  letter-spacing: 1px;
+}
+.tr-num { text-align: right; color: var(--text-muted); }
+.tr-bar-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.tr-bar {
+  display: block;
+  flex: 0 0 var(--w, 40%);
+  height: 6px;
+  border-radius: 3px;
+  background: var(--grad);
+  transform: scaleX(0);
+  transform-origin: left center;
+  animation: tr-bar-in .7s var(--ease) calc(var(--term-run) + var(--i, 0) * .18s + .15s) forwards;
+}
+@keyframes tr-in {
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes tr-bar-in {
+  to { transform: scaleX(1); }
+}
+
+/* --- Role typewriter caret -------------------------------- */
+.type-caret {
+  display: inline-block;
+  width: 3px;
+  height: .85em;
+  margin-left: 3px;
+  vertical-align: baseline;
+  background: var(--accent);
+  animation: type-blink .8s step-end infinite;
+}
+@keyframes type-blink {
+  50% { opacity: 0; }
+}
+
+/* --- Lenis smooth scroll ----------------------------------- */
+/* scroll-animations.js adds .lenis-on when Lenis takes over —
+   native CSS smooth scrolling must yield to it. */
+html.lenis-on { scroll-behavior: auto; }
+
+/* --- Reduced motion: no cinema, instant content ------------ */
+@media (prefers-reduced-motion: reduce) {
+  .splash { display: none !important; }
+  .hero-particles, .cursor-orb { display: none !important; }
+  .tr-row, .tr-bar {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .term-caret { animation: none !important; opacity: 1; }
+  .type-caret { display: none !important; }
 }
