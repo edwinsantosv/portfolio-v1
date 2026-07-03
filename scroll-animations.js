@@ -145,33 +145,27 @@
         dots.forEach((d, i) => d.classList.toggle('is-active', i === idx));
       }
 
-      // Rotate cube 270° in sync with the scroll.
-      // Desktop: pin the section so the cube stays in view while it rotates.
-      // Mobile: no pin — the section scrolls naturally and the cube rotates
-      // as it enters/exits the viewport (feels much more native on touch).
-      const stConfig = isMobile
-        ? {
-            trigger: section,
-            start: 'top bottom',   // rotation begins as section enters viewport
-            end:   'bottom top',   // rotation ends as section leaves viewport
-            scrub: 0.6,
-            pin: false
+      // Pin the section so the cube stays in view while it rotates through the
+      // 4 faces. Mobile gets a shorter pin (+=110%) so the "accompanied" feel is
+      // tight — desktop gets more (+=180%) since screens are wider and there's
+      // more room to breathe.
+      gsap.to(cube, {
+        rotationY: -270,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: section,
+          start: 'top top',
+          end: isMobile ? '+=110%' : '+=180%',
+          scrub: 0.6,
+          pin: true,
+          pinSpacing: true,
+          anticipatePin: 1,
+          onUpdate: (self) => {
+            const idx = Math.min(3, Math.floor(self.progress * 4));
+            setActiveFace(idx);
           }
-        : {
-            trigger: section,
-            start: 'top top',
-            end:   '+=180%',
-            scrub: 0.6,
-            pin: true,
-            pinSpacing: true,
-            anticipatePin: 1
-          };
-      stConfig.onUpdate = (self) => {
-        const idx = Math.min(3, Math.floor(self.progress * 4));
-        setActiveFace(idx);
-      };
-
-      gsap.to(cube, { rotationY: -270, ease: 'none', scrollTrigger: stConfig });
+        }
+      });
     })();
 
     /* -----------------------------------------------------
