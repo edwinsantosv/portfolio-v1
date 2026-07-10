@@ -155,6 +155,10 @@ ul { list-style: none; padding: 0; margin: 0; }
   border-radius: 50%;
   filter: blur(120px);
   opacity: .35;
+  /* keep each blurred blob on its own compositor layer: scroll + mouse
+     parallax transform these every frame, and re-rasterizing a 120px blur
+     is expensive enough to drag the whole page's frame rate down */
+  will-change: transform;
 }
 .mesh-1 { width: 520px; height: 520px; background: #6366f1; top: -180px; left: -120px; }
 .mesh-2 { width: 480px; height: 480px; background: #a855f7; top: 30%; right: -160px; opacity: .25; }
@@ -1649,7 +1653,14 @@ html.gsap-ready .reveal {
   margin-left: auto;
   perspective: 1600px;
   transform-style: preserve-3d;
+  /* draggable: horizontal drags spin the cube, vertical swipes keep
+     scrolling the page (pan-y), so touch never gets trapped */
+  touch-action: pan-y;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
 }
+.cube-stage.is-dragging { cursor: grabbing; }
 .cube {
   position: absolute;
   inset: 0;
@@ -1800,7 +1811,19 @@ html.gsap-ready .reveal {
   display: flex;
   gap: 10px;
 }
+.cube-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 14px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  letter-spacing: .5px;
+  color: var(--text-dim);
+}
+.cube-hint svg { opacity: .7; }
 .cube-dot {
+  cursor: pointer;
   width: 28px;
   height: 4px;
   border-radius: 4px;
@@ -2104,9 +2127,11 @@ html[data-splash] .hero-particles { animation-delay: 1.1s; }
 }
 
 /* --- Lenis smooth scroll ----------------------------------- */
-/* scroll-animations.js adds .lenis-on when Lenis takes over —
-   native CSS smooth scrolling must yield to it. */
-html.lenis-on { scroll-behavior: auto; }
+/* Lenis adds .lenis to <html> when it takes over — native CSS smooth
+   scrolling must yield to it or every scrollTop write gets re-animated
+   and the page crawls. scroll-animations.js also sets the inline style
+   as a belt-and-suspenders (Lenis rewrites the root className). */
+html.lenis { scroll-behavior: auto; }
 
 /* --- Reduced motion: no cinema, instant content ------------ */
 @media (prefers-reduced-motion: reduce) {

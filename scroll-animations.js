@@ -36,9 +36,21 @@
        its position. If the CDN fails, native scrolling and the
        CSS scroll-behavior:smooth remain untouched.
        ----------------------------------------------------- */
-    if (window.Lenis && !isMobile && window.matchMedia('(pointer: fine)').matches) {
-      const lenis = new window.Lenis({ lerp: 0.12 });
-      document.documentElement.classList.add('lenis-on'); // disables CSS smooth-scroll
+    const noSmooth = new URLSearchParams(location.search).get('nosmooth') === '1';
+    // gate on pointer type only (excludes touch devices) — gating on viewport
+    // width here made Lenis silently unavailable when the page loaded in a
+    // narrow desktop window that was maximized afterwards
+    if (window.Lenis && !noSmooth && window.matchMedia('(pointer: fine)').matches) {
+      // duration-based easing (easeOutExpo): the scroll responds instantly to
+      // the wheel and settles fast — lerp-based smoothing degrades badly when
+      // the frame rate dips and reads as "laggy scroll".
+      const lenis = new window.Lenis({ duration: 0.85, wheelMultiplier: 1.2 });
+      window.__lenis = lenis; // debugging handle
+      // CSS scroll-behavior:smooth MUST be off while Lenis drives the scroll:
+      // it re-animates every scrollTop write, which crawls the page at a few
+      // px/second. Inline style (not a class) — Lenis rewrites the root
+      // className for its own state classes and can drop ours.
+      document.documentElement.style.scrollBehavior = 'auto';
       lenis.on('scroll', ScrollTrigger.update);
       gsap.ticker.add((time) => lenis.raf(time * 1000));
       gsap.ticker.lagSmoothing(0);
@@ -216,22 +228,95 @@
         dots.forEach((d, i) => d.classList.toggle('is-active', i === idx));
       }
 
+      // Rotation = scroll-driven base + user drag offset. Everything writes
+      // the cube transform through render(), so scroll, drag, dot clicks and
+      // the release snap never fight each other.
+      const BASE_TILT = -14; // matches the CSS resting rotateX
+      const rot = { scroll: 0, drag: 0, tilt: 0 };
+
+      function syncFace() {
+        const total = rot.scroll + rot.drag;
+        const idx = ((Math.round(-total / 90) % 4) + 4) % 4;
+        setActiveFace(idx);
+      }
+      function render() {
+        gsap.set(cube, { rotationY: rot.scroll + rot.drag, rotationX: BASE_TILT + rot.tilt });
+        syncFace();
+      }
+
       // No pin — the section scrolls naturally, and the cube rotates while it
       // is visible in the viewport. Feels like the cube "accompanies" you as
       // you scroll past, without ever blocking the scroll gesture.
-      gsap.to(cube, {
-        rotationY: -270,
+      gsap.to(rot, {
+        scroll: -270,
         ease: 'none',
         scrollTrigger: {
           trigger: section,
           start: 'top bottom',     // rotation begins as section enters viewport
           end:   'bottom top',     // rotation ends as section leaves viewport
           scrub: 0.6,
-          onUpdate: (self) => {
-            const idx = Math.min(3, Math.floor(self.progress * 4));
-            setActiveFace(idx);
-          }
+          onUpdate: render,
         }
+      });
+
+      /* --- Drag to spin (mouse + touch via Pointer Events) ---
+         touch-action: pan-y (CSS) keeps vertical swipes scrolling the page;
+         horizontal drags rotate the cube. On release the total rotation
+         snaps to the nearest face, carrying a bit of fling momentum. */
+      const stage = cube.closest('.cube-stage') || cube;
+      let dragging = false, startX = 0, startY = 0, startDrag = 0;
+      let lastX = 0, lastT = 0, vel = 0;
+
+      const settleTo = (targetTotal, duration) => {
+        // only the drag/tilt tweens — killing everything on `rot` would also
+        // take out the ScrollTrigger scrub that drives rot.scroll
+        gsap.killTweensOf(rot, 'drag,tilt');
+        gsap.to(rot, {
+          drag: targetTotal - rot.scroll, tilt: 0,
+          duration, ease: 'power3.out', onUpdate: render,
+        });
+      };
+
+      stage.addEventListener('pointerdown', (e) => {
+        dragging = true;
+        startX = lastX = e.clientX; startY = e.clientY;
+        startDrag = rot.drag;
+        vel = 0; lastT = performance.now();
+        gsap.killTweensOf(rot, 'drag,tilt');
+        stage.classList.add('is-dragging');
+        if (stage.setPointerCapture) stage.setPointerCapture(e.pointerId);
+      });
+
+      stage.addEventListener('pointermove', (e) => {
+        if (!dragging) return;
+        const now = performance.now();
+        rot.drag = startDrag + (e.clientX - startX) * 0.45;
+        rot.tilt = Math.max(-16, Math.min(16, -(e.clientY - startY) * 0.12));
+        vel = ((e.clientX - lastX) / Math.max(1, now - lastT)) * 16; // ≈ px/frame
+        lastX = e.clientX; lastT = now;
+        render();
+      });
+
+      const release = () => {
+        if (!dragging) return;
+        dragging = false;
+        stage.classList.remove('is-dragging');
+        // momentum capped to one extra face — two pointermoves landing in the
+        // same frame can spike `vel` and would otherwise fling it for laps
+        const momentum = Math.max(-110, Math.min(110, vel * 3.6));
+        const flung = rot.scroll + rot.drag + momentum;
+        settleTo(Math.round(flung / 90) * 90, 0.7);
+      };
+      stage.addEventListener('pointerup', release);
+      stage.addEventListener('pointercancel', release);
+
+      // Dots double as controls: click/tap spins to that face (shortest path)
+      dots.forEach((d, i) => {
+        d.addEventListener('click', () => {
+          const total = rot.scroll + rot.drag;
+          const delta = (((-90 * i - total) % 360) + 540) % 360 - 180;
+          settleTo(total + delta, 0.8);
+        });
       });
     })();
 

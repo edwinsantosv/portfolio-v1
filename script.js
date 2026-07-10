@@ -38,6 +38,8 @@
       'about.status': 'Estado',
       'about.available': 'Abierto a roles de liderazgo',
 
+      'cube.hint': 'Arrastra el cubo para girarlo',
+
       'skills.title': 'Skills & Stack',
       'skills.c1': 'Lenguajes',
       'skills.c2': 'Bases de datos',
@@ -157,6 +159,8 @@
       'about.langs': 'Languages',
       'about.status': 'Status',
       'about.available': 'Open to leadership roles',
+
+      'cube.hint': 'Drag the cube to spin it',
 
       'skills.title': 'Skills & Stack',
       'skills.c1': 'Languages',
