@@ -38,7 +38,7 @@ Career track record includes two 1st-place team-lead awards (HEAD Competition 20
 - **LinkedIn:** [linkedin.com/in/edwinsantosvidal](https://www.linkedin.com/in/edwinsantosvidal/)
 - **GitHub:** [github.com/edwinsantosv](https://github.com/edwinsantosv)
 - **WhatsApp:** +51 915 077 667
-- **Calendly:** [calendly.com/edwinsantosvidal/30min](https://calendly.com/edwinsantosvidal/30min) *(update once configured)*
+- **Calendly:** [calendly.com/edwinrafaelsantosvidal/30min](https://calendly.com/edwinrafaelsantosvidal/30min)
 
 ## Local development
 
